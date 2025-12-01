@@ -1,7 +1,26 @@
 {
-    "routes": [
-        { "handle": "filesystem" },
-        { "src": "^/$", "dest": "/bot", "status": 307 },
-        { "src": "/(.*)", "dest": "/index.html" }
-    ]
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/bot",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!.*\\..*).*)", 
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*).(jpg|jpeg|png|svg|ico|css|js)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
 }
