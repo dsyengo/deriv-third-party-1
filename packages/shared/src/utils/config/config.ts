@@ -15,11 +15,14 @@ export const livechat_client_id = '66aa088aad5a414484c1fd1fa8a5ace7';
 
 export const domain_app_ids = {
     // these domains as supported "production domains"
-    'deriv.app': 16929, // TODO: [app-link-refactor] - Remove backwards compatibility for `deriv.app`
+    'charlohfx.site': 105469,      // <--- Your New Domain
+    'www.charlohfx.site': 105469,  // <--- Your New Domain (www)
+    'deriv-third-party-1.vercel.app': 105469, // Keep Vercel as backup
+    'deriv.app': 16929,
     'app.deriv.com': 16929,
     'staging-app.deriv.com': 16303,
     'app.deriv.me': 1411,
-    'staging-app.deriv.me': 1411, // TODO: setup staging for deriv.me
+    'staging-app.deriv.me': 1411,
     'app.deriv.be': 30767,
     'staging-app.deriv.be': 31186,
     'binary.com': 1,
@@ -35,7 +38,8 @@ export const getCurrentProductionDomain = () =>
     Object.keys(domain_app_ids).find(domain => window.location.hostname === domain);
 
 export const isProduction = () => {
-    const all_domains = Object.keys(domain_app_ids).map(domain => `(www\\.)?${domain.replace('.', '\\.')}`);
+    // FIX: Using global regex (/\./g) to ensure all dots are escaped properly for domains like charlohfx.site
+    const all_domains = Object.keys(domain_app_ids).map(domain => `(www\\.)?${domain.replace(/\./g, '\\.')}`);
     return new RegExp(`^(${all_domains.join('|')})$`, 'i').test(window.location.hostname);
 };
 
@@ -50,23 +54,32 @@ export const isLocal = () => /localhost(:\d+)?$/i.test(window.location.hostname)
  */
 export const getAppId = () => {
     let app_id = null;
-    const user_app_id = ''; // you can insert Application ID of your registered application here
+    const user_app_id = '105469'; // <--- Your Real App ID
     const config_app_id = window.localStorage.getItem('config.app_id');
     const current_domain = getCurrentProductionDomain() || '';
-    window.localStorage.removeItem('config.platform'); // Remove config stored in localstorage if there's any.
+    
+    window.localStorage.removeItem('config.platform');
     const platform = window.sessionStorage.getItem('config.platform');
     const is_bot = isBot();
-    // Added platform at the top since this should take precedence over the config_app_id
+
+    // 1. Check Platform first
     if (platform && platform_app_ids[platform as keyof typeof platform_app_ids]) {
         app_id = platform_app_ids[platform as keyof typeof platform_app_ids];
-    } else if (config_app_id) {
-        app_id = config_app_id;
-    } else if (user_app_id.length) {
+    } 
+    // 2. CHECK YOUR HARDCODED ID NEXT (Priority Override)
+    // This ensures your ID works even if the browser has old "staging" IDs saved.
+    else if (user_app_id.length) {
         window.localStorage.setItem('config.default_app_id', user_app_id);
         app_id = user_app_id;
-    } else if (isStaging()) {
+    } 
+    // 3. Then check LocalStorage
+    else if (config_app_id) {
+        app_id = config_app_id;
+    } 
+    // 4. Fallbacks
+    else if (isStaging()) {
         window.localStorage.removeItem('config.default_app_id');
-        app_id = is_bot ? 19112 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 16303; // it's being used in endpoint chrome extension - please do not remove
+        app_id = is_bot ? 19112 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 16303;
     } else if (/localhost/i.test(window.location.hostname)) {
         app_id = 36300;
     } else {
@@ -78,9 +91,11 @@ export const getAppId = () => {
 };
 
 export const getSocketURL = (is_wallets = false) => {
+    // 1. Respect local storage overrides (for developers using query params)
     const local_storage_server_url = window.localStorage.getItem('config.server_url');
     if (local_storage_server_url) return local_storage_server_url;
 
+    // 2. Check if the user is already logged in
     let active_loginid_from_url;
     const search = window.location.search;
     if (search) {
@@ -91,9 +106,18 @@ export const getSocketURL = (is_wallets = false) => {
         ? window.sessionStorage.getItem('active_wallet_loginid') || window.localStorage.getItem('active_wallet_loginid')
         : window.sessionStorage.getItem('active_loginid') || window.localStorage.getItem('active_loginid');
     const loginid = local_storage_loginid || active_loginid_from_url;
-    const is_real = loginid && !/^(VRT|VRW)/.test(loginid);
 
-    const server = is_real ? 'green' : 'blue';
+    // 3. Determine Server Type
+    // is_real: True if user is logged in with a Real Account (CR...)
+    const is_real = loginid && !/^(VRT|VRW)/.test(loginid);
+    
+    // is_production: True if on your new domain charlohfx.site
+    const is_production = isProduction();
+
+    // 4. The Decision Logic
+    // Use Green if: User has Real Account OR User is on your Production Website
+    // Use Blue if: User is on Localhost/Staging AND has no Real Account
+    const server = is_real || is_production ? 'green' : 'blue';
     const server_url = `${server}.derivws.com`;
 
     return server_url;
