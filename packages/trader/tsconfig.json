@@ -27,5 +27,11 @@
       "./index.d.ts",
       "../../globals.d.ts",
       "../../utils.d.ts"
-    ]
+    ],
+    "exclude": [
+    "node_modules",
+    "**/*.spec.tsx",
+    "**/*.test.tsx",
+    "**/__tests__"
+  ]
 }

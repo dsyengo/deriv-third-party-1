@@ -40,7 +40,17 @@ export const getCurrentProductionDomain = () =>
 export const isProduction = () => {
     // FIX: Using global regex (/\./g) to ensure all dots are escaped properly for domains like charlohfx.site
     const all_domains = Object.keys(domain_app_ids).map(domain => `(www\\.)?${domain.replace(/\./g, '\\.')}`);
-    return new RegExp(`^(${all_domains.join('|')})$`, 'i').test(window.location.hostname);
+    const regex = new RegExp(`^(${all_domains.join('|')})$`, 'i');
+    const is_prod = regex.test(window.location.hostname);
+    
+    // [DEBUG] Check if the current domain matches the list
+    console.log('[DEBUG] isProduction Check:', { 
+        hostname: window.location.hostname, 
+        is_prod: is_prod,
+        domains_list: all_domains 
+    });
+    
+    return is_prod;
 };
 
 export const isTestLink = () => {
@@ -62,38 +72,56 @@ export const getAppId = () => {
     const platform = window.sessionStorage.getItem('config.platform');
     const is_bot = isBot();
 
+    // [DEBUG] Log inputs to see what we are working with
+    console.log('[DEBUG] getAppId Inputs:', { 
+        user_app_id, 
+        config_app_id, 
+        platform,
+        hostname: window.location.hostname 
+    });
+
     // 1. Check Platform first
     if (platform && platform_app_ids[platform as keyof typeof platform_app_ids]) {
+        console.log('[DEBUG] Using Platform App ID');
         app_id = platform_app_ids[platform as keyof typeof platform_app_ids];
     } 
     // 2. CHECK YOUR HARDCODED ID NEXT (Priority Override)
     // This ensures your ID works even if the browser has old "staging" IDs saved.
     else if (user_app_id.length) {
+        console.log('[DEBUG] Using User Hardcoded App ID (Preferred)');
         window.localStorage.setItem('config.default_app_id', user_app_id);
         app_id = user_app_id;
     } 
     // 3. Then check LocalStorage
     else if (config_app_id) {
+        console.log('[DEBUG] Using LocalStorage App ID');
         app_id = config_app_id;
     } 
     // 4. Fallbacks
     else if (isStaging()) {
+        console.log('[DEBUG] Fallback: Staging');
         window.localStorage.removeItem('config.default_app_id');
         app_id = is_bot ? 19112 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 16303;
     } else if (/localhost/i.test(window.location.hostname)) {
+        console.log('[DEBUG] Fallback: Localhost');
         app_id = 36300;
     } else {
+        console.log('[DEBUG] Fallback: Production Default');
         window.localStorage.removeItem('config.default_app_id');
         app_id = is_bot ? 19111 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 16929;
     }
 
+    console.log('[DEBUG] Final Calculated App ID:', app_id);
     return app_id;
 };
 
 export const getSocketURL = (is_wallets = false) => {
     // 1. Respect local storage overrides (for developers using query params)
     const local_storage_server_url = window.localStorage.getItem('config.server_url');
-    if (local_storage_server_url) return local_storage_server_url;
+    if (local_storage_server_url) {
+        console.log('[DEBUG] Using Server URL from LocalStorage:', local_storage_server_url);
+        return local_storage_server_url;
+    }
 
     // 2. Check if the user is already logged in
     let active_loginid_from_url;
@@ -119,6 +147,14 @@ export const getSocketURL = (is_wallets = false) => {
     // Use Blue if: User is on Localhost/Staging AND has no Real Account
     const server = is_real || is_production ? 'green' : 'blue';
     const server_url = `${server}.derivws.com`;
+
+    // [DEBUG] Log why we picked this server
+    console.log('[DEBUG] getSocketURL Decision:', {
+        loginid,
+        is_real_account: is_real,
+        is_production_domain: is_production,
+        result_server: server
+    });
 
     return server_url;
 };
