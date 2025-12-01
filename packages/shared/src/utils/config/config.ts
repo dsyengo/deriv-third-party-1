@@ -15,8 +15,8 @@ export const livechat_client_id = '66aa088aad5a414484c1fd1fa8a5ace7';
 
 export const domain_app_ids = {
     // these domains as supported "production domains"
-    'charlohfx.site': 105469,      // <--- Your New Domain
-    'www.charlohfx.site': 105469,  // <--- Your New Domain (www)
+    'mrcharlohfx.site': 105469,      // <--- Your New Domain
+    'www.mrcharlohfx.site': 105469,  // <--- Your New Domain (www)
     'deriv-third-party-1.vercel.app': 105469, // Keep Vercel as backup
     'deriv.app': 16929,
     'app.deriv.com': 16929,
