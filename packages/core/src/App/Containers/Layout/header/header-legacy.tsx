@@ -1,25 +1,25 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { observer, useStore } from '@deriv/stores';
-import { useDevice } from '@deriv-com/ui';
+
 import { useIsHubRedirectionEnabled } from '@deriv/hooks';
 import { platforms, routes } from '@deriv/shared';
-import { Button } from '@deriv/components';
-import { Localize } from '@deriv/translations';
+import { observer, useStore } from '@deriv/stores';
+import { useDevice } from '@deriv-com/ui';
 
 import { AccountsInfoLoader } from 'App/Components/Layout/Header/Components/Preloader';
+import ToggleMenuDrawer from 'App/Components/Layout/Header/toggle-menu-drawer.jsx';
+import ToggleMenuDrawerAccountsOS from 'App/Components/Layout/Header/toggle-menu-drawer-accounts-os.jsx';
+import platform_config from 'App/Constants/platform-config';
 import CurrencySelectionModal from 'App/Containers/CurrencySelectionModal';
 import NewVersionNotification from 'App/Containers/new-version-notification.jsx';
 import RealAccountSignup from 'App/Containers/RealAccountSignup';
 import SetAccountCurrencyModal from 'App/Containers/SetAccountCurrencyModal';
 
-// Local Component Imports
 import DerivShortLogo from './deriv-short-logo';
 import HeaderAccountActions from './header-account-actions';
-import ContactUsModal from './contact-us-modal';
-import RefreshButton from './refresh-button';
-// import PriceIndicator from './price-indicator'; // Removed as requested
+
+// TradersHubHomeButton import removed (UI only)
 
 const HeaderLegacy = observer(() => {
     const { client, common, ui, notifications, traders_hub } = useStore();
@@ -27,26 +27,27 @@ const HeaderLegacy = observer(() => {
         currency,
         has_any_real_account,
         has_wallet,
+        is_bot_allowed,
+        is_dxtrade_allowed,
         is_logged_in,
         is_logging_in,
         is_single_logging_in,
+        is_mt5_allowed,
         is_virtual,
         is_switching,
         is_client_store_initialized,
     } = client;
-    const { platform, is_from_tradershub_os } = common;
+    const { app_routing_history, current_language, platform, is_from_tradershub_os } = common;
     const { header_extension, is_app_disabled, is_route_modal_on, toggleReadyToDepositModal, is_real_acc_signup_on } =
         ui;
     const { addNotificationMessage, client_notifications, removeNotificationMessage } = notifications;
-    const { modal_data } = traders_hub;
+    const { setTogglePlatformType, modal_data } = traders_hub;
     const { isHubRedirectionEnabled, isHubRedirectionLoaded } = useIsHubRedirectionEnabled();
 
     const { isDesktop } = useDevice();
+
     const history = useHistory();
     const { pathname } = useLocation();
-
-    // State for Contact Modal
-    const [is_contact_open, setContactOpen] = React.useState(false);
 
     const traders_hub_routes =
         [routes.traders_hub].includes(pathname) ||
@@ -73,6 +74,14 @@ const HeaderLegacy = observer(() => {
         }
     };
 
+    const filterPlatformsForClients = payload =>
+        payload.filter(config => {
+            if (config.link_to === routes.mt5) return !is_logged_in || is_mt5_allowed;
+            if (config.link_to === routes.dxtrade) return is_dxtrade_allowed;
+            if (config.link_to === routes.bot || config.href === routes.smarttrader) return is_bot_allowed;
+            return true;
+        });
+
     const excludedRoutes = [
         routes.trade,
         routes.trader_positions,
@@ -81,11 +90,6 @@ const HeaderLegacy = observer(() => {
         routes.redirect,
         routes.index,
         routes.error404,
-        routes.reports,
-        routes.positions,
-        routes.profit,
-        routes.statement,
-        '/contract',
     ];
 
     const isExcludedRoute = excludedRoutes.some(route => window.location.pathname.includes(route));
@@ -109,36 +113,30 @@ const HeaderLegacy = observer(() => {
         >
             <div className='header__menu-items'>
                 <div className='header__menu-left'>
-                    {/* 1. LOGO */}
-                    <DerivShortLogo />
-
-                    {/* 2. CUSTOM ACTION BAR (Visible on Mobile & Desktop) */}
-                    <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        marginLeft: '8px', 
-                        gap: '8px' 
-                    }}>
-                        {/* Contact Button */}
-                        <Button 
-                            id="dt_contact_us_button"
-                            has_effect
-                            onClick={() => setContactOpen(true)}
-                            tertiary
-                            small
-                        >
-                            {isDesktop ? <Localize i18n_default_text="Contact" /> : "Contact"}
-                        </Button>
-
-                        {/* Refresh Button */}
-                        <RefreshButton />
-
-                        {/* Price Indicator Removed */}
-                    </div>
-
-                    {/* Mobile Extensions */}
-                    {!isDesktop && header_extension && is_logged_in && (
-                        <div className='header__menu-left-extensions'>{header_extension}</div>
+                    {isDesktop ? (
+                        <React.Fragment>
+                            <DerivShortLogo />
+                            {/* Removed TradersHubHomeButton (UI only) */}
+                        </React.Fragment>
+                    ) : (
+                        <React.Fragment>
+                            {is_from_tradershub_os ? (
+                                <>
+                                    <ToggleMenuDrawerAccountsOS
+                                        platform_config={filterPlatformsForClients(platform_config)}
+                                    />
+                                    <DerivShortLogo />
+                                </>
+                            ) : (
+                                <>
+                                    <ToggleMenuDrawer platform_config={filterPlatformsForClients(platform_config)} />
+                                    <DerivShortLogo />
+                                    {header_extension && is_logged_in && (
+                                        <div className='header__menu-left-extensions'>{header_extension}</div>
+                                    )}
+                                </>
+                            )}
+                        </React.Fragment>
                     )}
                 </div>
 
@@ -171,10 +169,7 @@ const HeaderLegacy = observer(() => {
                     )}
                 </div>
             </div>
-            
-            {/* MODALS & NOTIFICATIONS */}
-            <ContactUsModal is_open={is_contact_open} toggleModal={() => setContactOpen(false)} />
-            
+
             {is_real_acc_signup_on && <RealAccountSignup />}
             <SetAccountCurrencyModal />
             <CurrencySelectionModal is_visible={modal_data.active_modal === 'currency_selection'} />
