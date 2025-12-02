@@ -62,9 +62,12 @@ export const isLocal = () => /localhost(:\d+)?$/i.test(window.location.hostname)
 /**
  * @deprecated Please use 'WebSocketUtils.getAppId' from '@deriv-com/utils' instead of this.
  */
+/**
+ * @deprecated Please use 'WebSocketUtils.getAppId' from '@deriv-com/utils' instead of this.
+ */
 export const getAppId = () => {
     let app_id = null;
-    const user_app_id = '105469'; // <--- We set this here, but we let the logic below decide when to use it.
+    const user_app_id = '105469'; // <--- Your Real App ID
     const config_app_id = window.localStorage.getItem('config.app_id');
     const current_domain = getCurrentProductionDomain() || '';
     
@@ -72,35 +75,42 @@ export const getAppId = () => {
     const platform = window.sessionStorage.getItem('config.platform');
     const is_bot = isBot();
 
-    // [DEBUG] Log Inputs
-    console.log('[DEBUG] getAppId Inputs:', { user_app_id, config_app_id, platform });
+    // [DEBUG] Log Inputs to see exactly what the browser sees
+    console.log('[DEBUG] getAppId Calculation Start:', { 
+        user_app_id, 
+        config_app_id_from_storage: config_app_id, 
+        platform,
+        hostname: window.location.hostname 
+    });
 
-    // 1. Priority: Platform (DerivGO, etc)
+    // 1. Priority: Platform (DerivGO, etc) - Keep this top for internal logic
     if (platform && platform_app_ids[platform as keyof typeof platform_app_ids]) {
-        console.log('[DEBUG] getAppId Selected: Platform ID');
+        console.log('[DEBUG] getAppId Decision: Using Platform ID');
         app_id = platform_app_ids[platform as keyof typeof platform_app_ids];
     } 
-    // 2. Priority: Developer Override (LocalStorage)
-    else if (config_app_id) {
-        console.log('[DEBUG] getAppId Selected: LocalStorage Config ID');
-        app_id = config_app_id;
-    } 
-    // 3. Priority: User App ID (YOUR ID)
+    // 2. Priority: User App ID (YOUR ID) <-- MOVED UP (Was Priority 3)
+    // We prioritize this ABOVE LocalStorage to ensure your ID is always used.
     else if (user_app_id.length) {
-        console.log('[DEBUG] getAppId Selected: User Hardcoded ID (105469)');
+        console.log('[DEBUG] getAppId Decision: Using User Hardcoded ID (Winner!)');
         window.localStorage.setItem('config.default_app_id', user_app_id);
         app_id = user_app_id;
     } 
+    // 3. Priority: Developer Override (LocalStorage) <-- MOVED DOWN
+    // Only check storage if you didn't provide a hardcoded ID.
+    else if (config_app_id) {
+        console.log('[DEBUG] getAppId Decision: Using LocalStorage Config ID');
+        app_id = config_app_id;
+    } 
     // 4. Fallbacks (Staging/Localhost)
     else if (isStaging()) {
-        console.log('[DEBUG] getAppId Selected: Staging Fallback');
+        console.log('[DEBUG] getAppId Decision: Fallback to Staging ID');
         window.localStorage.removeItem('config.default_app_id');
         app_id = is_bot ? 19112 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 16303;
     } else if (/localhost/i.test(window.location.hostname)) {
-        console.log('[DEBUG] getAppId Selected: Localhost Fallback');
+        console.log('[DEBUG] getAppId Decision: Fallback to Localhost ID');
         app_id = 36300;
     } else {
-        console.log('[DEBUG] getAppId Selected: Production Fallback');
+        console.log('[DEBUG] getAppId Decision: Fallback to General Production ID');
         window.localStorage.removeItem('config.default_app_id');
         app_id = is_bot ? 19111 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 16929;
     }

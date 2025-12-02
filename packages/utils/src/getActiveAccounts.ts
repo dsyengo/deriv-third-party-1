@@ -57,14 +57,16 @@ const setAccountInSessionStorage = (loginid?: string, isWallet = false) => {
     sessionStorage.setItem(key, loginid);
 };
 
+// UPDATED FUNCTION: Handles CORS errors gracefully
 const getActiveSessions = async () => {
     try {
         const data = await requestSessionActive();
-
         return data;
     } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to get active sessions', error);
+        // We silence the error here because failing to get active sessions
+        // is expected behavior for third-party domains (CORS block).
+        // Returning undefined tells the app "No active session found".
+        return undefined;
     }
 };
 
