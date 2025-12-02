@@ -35,15 +35,15 @@
     --text-align-center: center;
     --text-align-end: end;
 
-    // Brand primary colors
-    --brand-white: #{$color-white};
-    --brand-dark-grey: #{$color-black};
-    --brand-red-coral: #{$color-red};
-    --brand-orange: #{$color-orange};
+    // Brand primary colors (Mapped to your Primary 500/900)
+    --brand-white: #ffffff;
+    --brand-dark-grey: #1c1122;
+    --brand-red-coral: #8840bf; /* Replaced Red with Primary Purple */
+    --brand-orange: #8a33cc; /* Replaced Orange with Secondary Violet */
     // Brand secondary colors
-    --brand-secondary: #{$color-green};
+    --brand-secondary: #8b28d7; /* Replaced Green with Accent */
 
-    // Wallet gradient background
+    // Wallet gradient background (Kept as variables to avoid breaking build, or replace with solids if preferred)
     --wallet-airtm: #{$gradient-airtm};
     --wallet-banxa: #{$gradient-banxa};
     --wallet-bitcoin: #{$gradient-bitcoin};
@@ -67,114 +67,114 @@
     --app-card-virtual-swap-free: #{$gradient-virtual-swap-free};
 
     .theme--light {
-        // General
-        --general-main-1: #{$color-white};
-        --general-main-2: #{$color-white};
-        --general-main-3: #{$color-grey-1};
-        --general-main-4: #{$alpha-color-white-4};
-        --general-main-5: #{$color-white};
-        --general-section-1: #{$color-grey-2};
-        --general-section-2: #{$color-grey-2};
-        --general-section-3: #{$color-grey-11};
-        --general-section-4: #{$color-grey-12};
-        --general-section-5: #{$color-grey-2};
-        --general-section-6: #{$color-grey-2};
-        --general-disabled: #{$color-grey-3};
-        --general-hover: #{$color-grey-4};
-        --general-active: #{$color-grey-5};
-        // Icons and Texts
-        --text-general: #{$color-black-1};
-        --text-primary: #{$color-grey-1};
-        --text-less-prominent: #{$color-grey-1};
-        --text-prominent: #{$color-black-1};
-        --text-disabled: #{$color-grey-1};
-        --text-disabled-1: #{$color-grey-6};
-        --text-loss-danger: #{$color-red-1};
-        --text-profit-success: #{$color-green-1};
-        --text-warning: #{$color-yellow};
-        --text-red: #{$color-red};
-        --text-green: #{$color-green-6};
-        --text-blue: #{$color-blue-3};
-        --text-info-blue: #{$color-blue};
-        --text-info-blue-background: #{$color-blue-5};
-        --text-colored-background: #{$color-white};
-        --icon-light-background: #{$color-black-9};
-        --icon-dark-background: #{$color-white};
-        --icon-grey-background: #{$color-grey-2};
-        --icon-black-plus: #{$color-black-7};
-        --text-status-info-blue: #{$color-blue};
-        --text-hint: #{$color-black-1};
-        --text-orange: #{$color-orange-2};
+        // General (Mapped to Background 50-100)
+        --general-main-1: #f2edf8;
+        --general-main-2: #f2edf8;
+        --general-main-3: #e6daf1;
+        --general-main-4: rgba(255, 255, 255, 0.4);
+        --general-main-5: #f2edf8;
+        --general-section-1: #e6daf1;
+        --general-section-2: #e6daf1;
+        --general-section-3: #ffffff;
+        --general-section-4: #f3ecf9;
+        --general-section-5: #e6daf1;
+        --general-section-6: #e6daf1;
+        --general-disabled: #ccb6e2;
+        --general-hover: #e6daf1;
+        --general-active: #d2bbdd;
+        // Icons and Texts (Mapped to Text 500-900)
+        --text-general: #1c1122;
+        --text-primary: #392244;
+        --text-less-prominent: #553366;
+        --text-prominent: #0e0911;
+        --text-disabled: #bb99cc;
+        --text-disabled-1: #d2bbdd;
+        --text-loss-danger: #6d3399; /* Primary 600 */
+        --text-profit-success: #8a33cc; /* Secondary 500 */
+        --text-warning: #8b28d7; /* Accent 500 */
+        --text-red: #8840bf;
+        --text-green: #8a33cc;
+        --text-blue: #522673;
+        --text-info-blue: #522673;
+        --text-info-blue-background: #e7d9f2;
+        --text-colored-background: #ffffff;
+        --icon-light-background: #190e25;
+        --icon-dark-background: #ffffff;
+        --icon-grey-background: #e6daf1;
+        --icon-black-plus: #0e0911;
+        --text-status-info-blue: #522673;
+        --text-hint: #1c1122;
+        --text-orange: #8a33cc;
         // Purchase
-        --purchase-main-1: #{$color-green-1};
-        --purchase-section-1: #{$color-green-2};
-        --purchase-main-2: #{$color-red-1};
-        --purchase-section-2: #{$color-red-4};
-        --purchase-disabled-main: #{$color-grey-3};
-        --purchase-disabled-section: #{$color-grey-4};
-        // Buttons
-        --button-primary-default: var(--brand-red-coral);
-        --button-secondary-default: #{$color-grey-1};
+        --purchase-main-1: #8a33cc;
+        --purchase-section-1: #d0adeb;
+        --purchase-main-2: #8840bf;
+        --purchase-section-2: #cfb3e6;
+        --purchase-disabled-main: #bb99cc;
+        --purchase-disabled-section: #d2bbdd;
+        // Buttons (Mapped to Primary/Secondary)
+        --button-primary-default: #8840bf;
+        --button-secondary-default: #553366;
         --button-tertiary-default: transparent;
-        --button-primary-light-default: #{$alpha-color-red-2};
-        --button-primary-hover: #{$color-red-5};
-        --button-secondary-hover: #{$alpha-color-black-3};
-        --button-tertiary-hover: #{$alpha-color-red-1};
-        --button-primary-light-hover: #{$alpha-color-red-3};
-        --button-toggle-primary: #{$color-blue-3};
-        --button-toggle-secondary: #{$color-grey-5};
-        --button-toggle-alternate: #{$color-white};
-        --button-get-started-bg: #{$color-black-7};
+        --button-primary-light-default: #e7d9f2;
+        --button-primary-hover: #6d3399;
+        --button-secondary-hover: rgba(57, 34, 68, 0.1);
+        --button-tertiary-hover: rgba(136, 64, 191, 0.1);
+        --button-primary-light-hover: #cfb3e6;
+        --button-toggle-primary: #522673;
+        --button-toggle-secondary: #8e55aa;
+        --button-toggle-alternate: #ffffff;
+        --button-get-started-bg: #0e0911;
         // Overlay
-        --overlay-outside-dialog: #{$alpha-color-black-1};
-        --overlay-inside-dialog: #{$alpha-color-white-1};
+        --overlay-outside-dialog: rgba(14, 9, 17, 0.6);
+        --overlay-inside-dialog: rgba(255, 255, 255, 0.8);
         // Shadow
-        --shadow-menu: #{$alpha-color-black-4};
-        --shadow-menu-2: #{$alpha-color-black-4};
-        --shadow-drop: #{$alpha-color-black-3};
-        --shadow-box: #{$COLOR_LIGHT_BLACK_2};
+        --shadow-menu: rgba(28, 17, 34, 0.1);
+        --shadow-menu-2: rgba(28, 17, 34, 0.1);
+        --shadow-drop: rgba(28, 17, 34, 0.08);
+        --shadow-box: rgba(28, 17, 34, 0.12);
         // States
-        --state-normal: #{$color-white};
-        --state-hover: #{$color-grey-4};
-        --state-active: #{$color-grey-5};
-        --state-disabled: #{$color-grey-3};
-        --checkbox-disabled-grey: #{$color-grey-6};
-        --sidebar-tab: #{$color-grey-6};
+        --state-normal: #ffffff;
+        --state-hover: #e6daf1;
+        --state-active: #ccb6e2;
+        --state-disabled: #e6daf1;
+        --checkbox-disabled-grey: #d2bbdd;
+        --sidebar-tab: #d2bbdd;
         // Border
-        --border-normal: #{$color-grey-5};
-        --border-normal-1: #{$color-grey-5};
-        --border-normal-2: #{$color-grey-5};
-        --border-normal-3: #{$color-grey-6};
-        --border-hover: #{$color-grey-1};
-        --border-hover-1: #{$color-black-9};
-        --border-active: var(--brand-secondary);
-        --border-disabled: #{$color-grey-3};
-        --border-divider: #{$color-grey-2};
+        --border-normal: #b291d4;
+        --border-normal-1: #b291d4;
+        --border-normal-2: #b291d4;
+        --border-normal-3: #ccb6e2;
+        --border-hover: #553366;
+        --border-hover-1: #392244;
+        --border-active: #8a33cc;
+        --border-disabled: #e6daf1;
+        --border-divider: #e6daf1;
         // Fill
-        --fill-normal: #{$color-white};
-        --fill-normal-1: #{$color-grey};
-        --fill-hover: #{$color-grey-1};
-        --fill-active: var(--brand-secondary);
-        --fill-disabled: #{$color-grey-3};
+        --fill-normal: #ffffff;
+        --fill-normal-1: #bb99cc;
+        --fill-hover: #e6daf1;
+        --fill-active: #8a33cc;
+        --fill-disabled: #e6daf1;
         // Status
-        --status-default: #{$color-grey-3};
-        --status-adjustment: #{$color-grey-1};
-        --status-danger: #{$color-red-1};
-        --status-danger-transparent: #{$alpha-color-red-2};
-        --status-success: #{$color-green-1};
-        --status-success-transparent: #{$alpha-color-green-3};
-        --status-warning: #{$color-yellow};
-        --status-warning-dark: #{$color-yellow-1};
-        --status-info-transparent: #{$alpha-color-blue-1};
-        --status-warning-transparent: #{$alpha-color-yellow-1};
-        --status-transfer: #{$color-orange};
-        --status-info: #{$color-blue};
-        --status-colored-background: #{$color-white};
-        --status-alert-background: #{$color-yellow-3};
+        --status-default: #e6daf1;
+        --status-adjustment: #553366;
+        --status-danger: #8840bf;
+        --status-danger-transparent: #e7d9f2;
+        --status-success: #8a33cc;
+        --status-success-transparent: #e8d6f5;
+        --status-warning: #8b28d7;
+        --status-warning-dark: #6f20ac;
+        --status-info-transparent: #cfb3e6;
+        --status-warning-transparent: #e8d4f7;
+        --status-transfer: #8a33cc;
+        --status-info: #522673;
+        --status-colored-background: #ffffff;
+        --status-alert-background: #e8d4f7;
         // Dashboard
-        --dashboard-swap-free: #{$gradient-color-black-3};
-        --dashboard-app: #{$gradient-color-black-4};
-        // Payment methods
+        --dashboard-swap-free: #e6daf1;
+        --dashboard-app: #f2edf8;
+        // Payment methods (Kept Gradients)
         --payment-skrill: #{$gradient-color-purple};
         --payment-visa: #{$gradient-color-blue};
         --payment-mastercard: #{$gradient-color-orange};
@@ -189,190 +189,190 @@
         --payment-dp2p: #{$gradient-color-red-3};
         --payment-deriv: #{$gradient-color-red-4};
         // Transparentize
-        --transparent-success: #{$alpha-color-green-1};
-        --transparent-info: #{$alpha-color-blue-1};
-        --transparent-hint: #{$alpha-color-blue-3};
-        --transparent-danger: #{$alpha-color-red-2};
-        --transparent-correct-message: #{$color-green-5};
-        --transparent-fake-message: #{$color-red-6};
+        --transparent-success: rgba(138, 51, 204, 0.1);
+        --transparent-info: rgba(82, 38, 115, 0.1);
+        --transparent-hint: rgba(82, 38, 115, 0.2);
+        --transparent-danger: rgba(136, 64, 191, 0.1);
+        --transparent-correct-message: #e8d6f5;
+        --transparent-fake-message: #e7d9f2;
         /* TODO: change to styleguide later */
         // Gradient
-        --gradient-success: #{$gradient-color-green-1};
-        --gradient-danger: #{$gradient-color-red-1};
-        --contract-gradient-danger: #{$contract-gradient-color-red-1};
-        --gradient-right-edge: #{$gradient-color-white};
-        --gradient-blue: #{$gradient-color-blue-5};
-        --gradient-gold: #{$gradient-color-gold};
-        --gradient-green: #{$gradient-color-green-4};
+        --gradient-success: linear-gradient(to top, #ffffff, rgba(138, 51, 204, 0.1));
+        --gradient-danger: linear-gradient(to top, #ffffff, rgba(136, 64, 191, 0.1));
+        --contract-gradient-danger: linear-gradient(to top, #ffffff 85%, rgba(136, 64, 191, 0.8));
+        --gradient-right-edge: linear-gradient(to right, rgba(255,255,255,0), #ffffff);
+        --gradient-blue: linear-gradient(90deg, #cfb3e6 0%, #522673 100%);
+        --gradient-gold: linear-gradient(90deg, #e8d4f7 0%, #8b28d7 100%);
+        --gradient-green: linear-gradient(90deg, #e8d6f5 0%, #8a33cc 100%);
         // Badge
-        --badge-white: #{$color-white};
-        --badge-blue: #{$color-blue-4};
-        --badge-violet: #{$color-blue-2};
-        --badge-green: #{$color-green-3};
+        --badge-white: #ffffff;
+        --badge-blue: #522673;
+        --badge-violet: #8840bf;
+        --badge-green: #8a33cc;
         //TradersHub Banner
-        --traders-hub-banner-border-color: #{$color-grey-4};
-        --traders-hub-logged-out-banner-bg-color: #{$color-grey-15};
+        --traders-hub-banner-border-color: #b291d4;
+        --traders-hub-logged-out-banner-bg-color: #f2edf8;
         // wallets
-        --wallets-banner-ready-bg-color: #{$ready-banner-bg-color};
-        --wallets-banner-ready-tick-bg-color: #{$ready-banner-tick-bg-color};
-        --wallets-banner-border-color: #{$color-grey-4};
-        --wallets-banner-dot-color: #{$color-grey-6};
-        --wallets-banner-active-dot-color: #{$color-red};
-        --wallets-card-active-gradient-background: #{$gradient-color-black-5};
-        --wallet-demo-bg-color: #{$wallet-demo-bg-color};
-        --wallet-demo-divider-color: #{$wallet-demo-divider-color};
-        --wallet-eu-disclaimer: #{$color-grey-4};
-        --wallet-box-shadow: #{$wallet-box-shadow};
+        --wallets-banner-ready-bg-color: #e8d6f5;
+        --wallets-banner-ready-tick-bg-color: #8a33cc;
+        --wallets-banner-border-color: #b291d4;
+        --wallets-banner-dot-color: #d2bbdd;
+        --wallets-banner-active-dot-color: #8840bf;
+        --wallets-card-active-gradient-background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(28, 17, 34, 0.06) 100%);
+        --wallet-demo-bg-color: #f2edf8;
+        --wallet-demo-divider-color: #e6daf1;
+        --wallet-eu-disclaimer: #bb99cc;
+        --wallet-box-shadow: 0px 12px 16px -4px rgba(28, 17, 34, 0.06);
         // Demo view
-        --demo-text-color-1: #{$color-grey};
-        --demo-text-color-2: #{$color-white};
+        --demo-text-color-1: #bb99cc;
+        --demo-text-color-2: #ffffff;
         // Header
-        --header-background-mt5: #{$color-blue-8};
-        --header-background-others: #{$color-green-7};
+        --header-background-mt5: #e7d9f2;
+        --header-background-others: #e8d6f5;
     }
     .theme--dark {
-        // General
-        --general-main-1: #{$color-black};
-        --general-main-2: #{$color-black-3};
-        --general-main-3: #{$color-black-4};
-        --general-main-4: #{$alpha-color-black-7};
-        --general-main-5: #{$color-black-10};
-        --general-section-1: #{$color-black-3};
-        --general-section-2: #{$color-black};
-        --general-section-3: #{$color-black-5};
+        // General (Mapped to Background 50-100)
+        --general-main-1: #0c0712;
+        --general-main-2: #180f24;
+        --general-main-3: #311d49;
+        --general-main-4: rgba(12, 7, 18, 0.7);
+        --general-main-5: #0c0712;
+        --general-section-1: #180f24;
+        --general-section-2: #0c0712;
+        --general-section-3: #311d49;
         // @TODO: get color from design
-        --general-section-4: #{$color-black-5};
-        --general-section-5: #{$color-black-5};
-        --general-section-6: #{$color-grey-7};
-        --general-disabled: #{$color-black-4};
-        --general-hover: #{$color-black-5};
-        --general-active: #{$color-black-8};
-        // Icons and Texts
-        --text-prominent: #{$color-white};
-        --text-general: #{$color-grey};
-        --text-less-prominent: #{$color-grey-7};
-        --text-primary: #{$color-grey-1};
-        --text-disabled: #{$color-black-6};
-        --text-disabled-1: #{$color-black-6};
-        --text-profit-success: #{$color-green-3};
-        --text-loss-danger: #{$color-red-2};
-        --text-red: #{$color-red};
-        --text-colored-background: #{$color-white};
-        --text-info-blue: #{$color-blue-6};
-        --text-info-blue-background: #{$color-blue-7};
-        --text-status-info-blue: #{$color-blue};
-        --text-hint: #{$color-grey};
-        --icon-light-background: #{$color-black-9};
-        --icon-dark-background: #{$color-white};
-        --icon-grey-background: #{$color-black-1};
-        --icon-black-plus: #{$color-white};
+        --general-section-4: #311d49;
+        --general-section-5: #311d49;
+        --general-section-6: #492c6d;
+        --general-disabled: #311d49;
+        --general-hover: #492c6d;
+        --general-active: #623a92;
+        // Icons and Texts (Mapped to Text 800-950)
+        --text-prominent: #f4eef6;
+        --text-general: #d3bbdd;
+        --text-less-prominent: #bd99cc;
+        --text-primary: #a877bb;
+        --text-disabled: #573366;
+        --text-disabled-1: #573366;
+        --text-profit-success: #a15dd5; /* Secondary 600 */
+        --text-loss-danger: #a066cc; /* Primary 600 */
+        --text-red: #8840bf;
+        --text-colored-background: #ffffff;
+        --text-info-blue: #a066cc;
+        --text-info-blue-background: #36194d;
+        --text-status-info-blue: #b88cd9;
+        --text-hint: #9255aa;
+        --icon-light-background: #190e25;
+        --icon-dark-background: #ffffff;
+        --icon-grey-background: #1c1122;
+        --icon-black-plus: #f4eef6;
         // Purchase
-        --purchase-main-1: #{$color-green-3};
-        --purchase-section-1: #{$color-green-4};
-        --purchase-main-2: #{$color-red-2};
-        --purchase-section-2: #{$color-red-3};
-        --purchase-disabled-main: #{$color-black-4};
-        --purchase-disabled-section: #{$color-black};
+        --purchase-main-1: #8a34cb;
+        --purchase-section-1: #531f7a;
+        --purchase-main-2: #8840bf;
+        --purchase-section-2: #522673;
+        --purchase-disabled-main: #36194d;
+        --purchase-disabled-section: #1b0d26;
         // Buttons
-        --button-primary-default: var(--brand-red-coral);
-        --button-secondary-default: #{$color-grey-7};
+        --button-primary-default: #8840bf;
+        --button-secondary-default: #573366;
         --button-tertiary-default: transparent;
-        --button-primary-light-default: #{$alpha-color-red-2};
-        --button-primary-hover: #{$color-red-5};
-        --button-secondary-hover: #{$alpha-color-white-3};
-        --button-tertiary-hover: #{$alpha-color-red-1};
-        --button-primary-light-hover: #{$alpha-color-red-3};
-        --button-toggle-primary: #{$color-blue-3};
-        --button-toggle-secondary: #{$color-black-8};
-        --button-toggle-alternate: #{$color-black-8};
-        --button-get-started-bg: #{$color-white};
+        --button-primary-light-default: #36194d;
+        --button-primary-hover: #6d3399;
+        --button-secondary-hover: rgba(244, 238, 246, 0.1);
+        --button-tertiary-hover: rgba(136, 64, 191, 0.2);
+        --button-primary-light-hover: #522673;
+        --button-toggle-primary: #a066cc;
+        --button-toggle-secondary: #331d49;
+        --button-toggle-alternate: #331d49;
+        --button-get-started-bg: #f4eef6;
         // Overlay
-        --overlay-outside-dialog: #{$alpha-color-black-1};
-        --overlay-inside-dialog: #{$alpha-color-black-2};
+        --overlay-outside-dialog: rgba(12, 7, 18, 0.8);
+        --overlay-inside-dialog: rgba(12, 7, 18, 0.9);
         // Shadow
-        --shadow-menu: #{$alpha-color-black-5};
-        --shadow-menu-2: #{$alpha-color-black-1};
-        --shadow-drop: #{$alpha-color-black-6};
-        --shadow-box: #{$COLOR_DARK_GRAY_3};
+        --shadow-menu: rgba(0, 0, 0, 0.5);
+        --shadow-menu-2: rgba(0, 0, 0, 0.2);
+        --shadow-drop: rgba(0, 0, 0, 0.4);
+        --shadow-box: rgba(0, 0, 0, 0.3);
         // States
-        --state-normal: #{$color-black};
-        --state-hover: #{$color-black-5};
-        --state-active: #{$color-black-8};
-        --state-disabled: #{$color-black-4};
-        --checkbox-disabled-grey: #{$color-grey-6};
-        --sidebar-tab: #{$color-grey-7};
+        --state-normal: #0c0712;
+        --state-hover: #311d49;
+        --state-active: #492c6d;
+        --state-disabled: #180f24;
+        --checkbox-disabled-grey: #573366;
+        --sidebar-tab: #754488;
         // Border
-        --border-normal: #{$color-black-8};
-        --border-normal-1: #{$color-grey-5};
-        --border-normal-2: #{$color-grey-1};
-        --border-normal-3: #{$color-grey-7};
-        --border-hover: #{$color-grey-7};
-        --border-hover-1: #{$color-black-9};
-        --border-active: var(--brand-secondary);
-        --border-disabled: #{$color-black-4};
-        --border-divider: #{$color-grey-13};
+        --border-normal: #331d49;
+        --border-normal-1: #573366;
+        --border-normal-2: #371551;
+        --border-normal-3: #573366;
+        --border-hover: #754488;
+        --border-hover-1: #1c1122;
+        --border-active: #8a33cc;
+        --border-disabled: #180f24;
+        --border-divider: #392244;
         // Fill
-        --fill-normal: #{$color-black};
-        --fill-normal-1: #{$color-black-1};
-        --fill-hover: #{$color-grey-7};
-        --fill-active: var(--brand-secondary);
-        --fill-disabled: #{$color-black-4};
+        --fill-normal: #0c0712;
+        --fill-normal-1: #180f24;
+        --fill-hover: #573366;
+        --fill-active: #8a33cc;
+        --fill-disabled: #180f24;
         // Status
-        --status-default: #{$color-grey-3};
-        --status-adjustment: #{$color-grey-1};
-        --status-danger: #{$color-red-2};
-        --status-warning: #{$color-yellow};
-        --status-warning-transparent: #{$alpha-color-yellow-1};
-        --status-success: #{$color-green-3};
-        --status-transfer: #{$color-orange};
-        --status-info: #{$color-blue};
-        --status-warning-dark: #{$color-yellow-1};
-        --status-danger-transparent: #{$alpha-color-red-1};
-        --status-success-transparent: #{$alpha-color-green-3};
-        --status-colored-background: #{$color-white};
-        --status-alert-background: #{$color-yellow-3};
-        --status-warning-dark: #{$color-yellow-1};
-        --status-info-transparent: #{$alpha-color-blue-1};
+        --status-default: #573366;
+        --status-adjustment: #9255aa;
+        --status-danger: #a066cc;
+        --status-warning: #8b28d7;
+        --status-warning-transparent: rgba(139, 40, 215, 0.1);
+        --status-success: #8a34cb;
+        --status-transfer: #a15cd6;
+        --status-info: #b88cd9;
+        --status-warning-dark: #6f20ac;
+        --status-danger-transparent: rgba(136, 64, 191, 0.2);
+        --status-success-transparent: rgba(138, 52, 203, 0.2);
+        --status-colored-background: #0e0613;
+        --status-alert-background: #381056;
+        --status-warning-dark: #541881;
+        --status-info-transparent: rgba(160, 102, 204, 0.2);
         // Transparentize
-        --transparent-success: #{$alpha-color-green-2};
-        --transparent-info: #{$alpha-color-blue-1};
-        --transparent-hint: #{$alpha-color-blue-1};
-        --transparent-danger: #{$alpha-color-red-2};
-        --transparent-correct-message: #{$color-green-5};
-        --transparent-fake-message: #{$color-red-6};
+        --transparent-success: rgba(138, 52, 203, 0.2);
+        --transparent-info: rgba(160, 102, 204, 0.2);
+        --transparent-hint: rgba(160, 102, 204, 0.1);
+        --transparent-danger: rgba(136, 64, 191, 0.2);
+        --transparent-correct-message: #371551;
+        --transparent-fake-message: #36194d;
         /* TODO: change to styleguide later */
         // Gradient
-        --gradient-success: #{$gradient-color-green-2};
-        --gradient-danger: #{$gradient-color-red-2};
-        --contract-gradient-danger: #{$contract-gradient-color-red-2};
-        --gradient-right-edge: #{$gradient-color-black};
-        --gradient-blue: #{$gradient-color-blue-5};
-        --gradient-gold: #{$gradient-color-gold};
-        --gradient-green: #{$gradient-color-green-4};
+        --gradient-success: linear-gradient(to top, #0c0712, rgba(138, 52, 203, 0.2));
+        --gradient-danger: linear-gradient(to top, #0c0712, rgba(136, 64, 191, 0.2));
+        --contract-gradient-danger: linear-gradient(to top, #0c0712 85%, rgba(136, 64, 191, 0.2));
+        --gradient-right-edge: linear-gradient(to right, rgba(12, 7, 18, 0), #0c0712);
+        --gradient-blue: linear-gradient(90deg, #36194d 0%, #a066cc 100%);
+        --gradient-gold: linear-gradient(90deg, #381056 0%, #8b28d7 100%);
+        --gradient-green: linear-gradient(90deg, #371551 0%, #8a34cb 100%);
         // Badge
-        --badge-white: #{$color-white};
-        --badge-blue: #{$color-blue-4};
-        --badge-violet: #{$color-blue-2};
-        --badge-green: #{$color-green-3};
+        --badge-white: #0c0712;
+        --badge-blue: #b88cd9;
+        --badge-violet: #a066cc;
+        --badge-green: #8a34cb;
         //TradersHub Banner
-        --traders-hub-banner-border-color: #{$color-black-5};
-        --traders-hub-logged-out-banner-bg-color: #{$color-black-5};
+        --traders-hub-banner-border-color: #331d49;
+        --traders-hub-logged-out-banner-bg-color: #190e25;
         // wallets
-        --wallets-banner-ready-bg-color: #{$ready-banner-bg-color};
-        --wallets-banner-ready-tick-bg-color: #{$ready-banner-tick-bg-color};
-        --wallets-banner-border-color: #{$color-black-5};
-        --wallets-banner-dot-color: #{$color-grey-6};
-        --wallets-banner-active-dot-color: #{$color-red};
-        --wallets-card-active-gradient-background: #{$gradient-color-white-2};
-        --wallet-demo-bg-color: #{$wallet-dark-demo-bg-color};
-        --wallet-demo-divider-color: #{$color-black-8};
-        --wallet-eu-disclaimer: #{$color-grey-4};
-        --wallet-box-shadow: #{$wallet-box-shadow};
+        --wallets-banner-ready-bg-color: #371551;
+        --wallets-banner-ready-tick-bg-color: #8a34cb;
+        --wallets-banner-border-color: #331d49;
+        --wallets-banner-dot-color: #573366;
+        --wallets-banner-active-dot-color: #a066cc;
+        --wallets-card-active-gradient-background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(255, 255, 255, 0.06) 100%);
+        --wallet-demo-bg-color: #0c0712;
+        --wallet-demo-divider-color: #392244;
+        --wallet-eu-disclaimer: #754488;
+        --wallet-box-shadow: 0px 12px 16px -4px rgba(0, 0, 0, 0.3);
         // Demo view
-        --demo-text-color-1: #{$color-black-1};
-        --demo-text-color-2: #{$color-black-1};
+        --demo-text-color-1: #d3bbdd;
+        --demo-text-color-2: #f4eef6;
         // Header
-        --header-background-mt5: #{$color-blue-8};
-        --header-background-others: #{$color-green-7};
+        --header-background-mt5: #36194d;
+        --header-background-others: #371551;
     }
 }
