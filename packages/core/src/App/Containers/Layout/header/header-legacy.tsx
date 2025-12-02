@@ -1,27 +1,25 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-
-// -----------------------------------------------------------------------------
-// [INSTRUCTION]: UNCOMMENT THESE IMPORTS IN YOUR LOCAL PROJECT
-// -----------------------------------------------------------------------------
 import { observer, useStore } from '@deriv/stores';
 import { useDevice } from '@deriv-com/ui';
 import { useIsHubRedirectionEnabled } from '@deriv/hooks';
 import { platforms, routes } from '@deriv/shared';
-import { Button } from '@deriv/components'; 
+import { Button } from '@deriv/components';
 import { Localize } from '@deriv/translations';
+
 import { AccountsInfoLoader } from 'App/Components/Layout/Header/Components/Preloader';
 import CurrencySelectionModal from 'App/Containers/CurrencySelectionModal';
 import NewVersionNotification from 'App/Containers/new-version-notification.jsx';
 import RealAccountSignup from 'App/Containers/RealAccountSignup';
 import SetAccountCurrencyModal from 'App/Containers/SetAccountCurrencyModal';
+
+// Local Component Imports
 import DerivShortLogo from './deriv-short-logo';
 import HeaderAccountActions from './header-account-actions';
 import ContactUsModal from './contact-us-modal';
 import RefreshButton from './refresh-button';
-import PriceIndicator from './price-indicator';
-
+// import PriceIndicator from './price-indicator'; // Removed as requested
 
 const HeaderLegacy = observer(() => {
     const { client, common, ui, notifications, traders_hub } = useStore();
@@ -115,22 +113,27 @@ const HeaderLegacy = observer(() => {
                     <DerivShortLogo />
 
                     {/* 2. CUSTOM ACTION BAR (Visible on Mobile & Desktop) */}
-                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: isDesktop ? '16px' : '8px', gap: '8px' }}>
+                    <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        marginLeft: '8px', 
+                        gap: '8px' 
+                    }}>
                         {/* Contact Button */}
                         <Button 
                             id="dt_contact_us_button"
                             has_effect
-                            text={isDesktop ? <Localize i18n_default_text="Contact" /> : "Contact"}
                             onClick={() => setContactOpen(true)}
                             tertiary
                             small
-                        />
+                        >
+                            {isDesktop ? <Localize i18n_default_text="Contact" /> : "Contact"}
+                        </Button>
 
                         {/* Refresh Button */}
                         <RefreshButton />
 
-                        {/* Price Indicator (Only Price) - Pass tick data here if available in store */}
-                        <PriceIndicator price="100.50" /> 
+                        {/* Price Indicator Removed */}
                     </div>
 
                     {/* Mobile Extensions */}
