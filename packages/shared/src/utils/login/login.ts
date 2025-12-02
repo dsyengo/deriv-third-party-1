@@ -33,30 +33,24 @@ type TLoginUrl = {
 };
 
 export const loginUrl = ({ language }: TLoginUrl) => {
-    const server_url = LocalStore.get('config.server_url');
-    const change_login_app_id = LocalStore.get('change_login_app_id');
+    // 1. Get Marketing Cookies (Keep this for tracking)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const signup_device_cookie = new (CookieStorage as any)('signup_device');
     const signup_device = signup_device_cookie.get('signup_device');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const date_first_contact_cookie = new (CookieStorage as any)('date_first_contact');
     const date_first_contact = date_first_contact_cookie.get('date_first_contact');
+    
     const marketing_queries = `${signup_device ? `&signup_device=${signup_device}` : ''}${
         date_first_contact ? `&date_first_contact=${date_first_contact}` : ''
     }`;
 
-    const getOAuthUrl = () => {
-        return `https://oauth.${
-            deriv_urls.DERIV_HOST_NAME
-        }/oauth2/authorize?app_id=${change_login_app_id || getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;
-    };
+    // 2. FORCE YOUR APP ID (Nuclear Option)
+    // We do NOT check LocalStore.get('change_login_app_id') here.
+    // This ignores any previous sessions from the official site.
+    const app_id = '105469'; 
 
-    if (server_url && /qa/.test(server_url)) {
-        return `https://${server_url}/oauth2/authorize?app_id=${getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;
-    }
-
-    if (getAppId() === domain_app_ids[window.location.hostname as keyof typeof domain_app_ids]) {
-        return getOAuthUrl();
-    }
-    return urlForCurrentDomain(getOAuthUrl());
+    // 3. Construct the URL directly
+    // This ensures we always go to the main OAuth server with YOUR ID.
+    return `https://oauth.deriv.com/oauth2/authorize?app_id=${app_id}&l=${language}${marketing_queries}&brand=deriv`;
 };
