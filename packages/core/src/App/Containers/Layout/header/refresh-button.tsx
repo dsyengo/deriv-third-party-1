@@ -15,15 +15,19 @@ const RefreshButton = () => {
 
     return (
         <Button
-            id="dt_refresh_button"
-            has_effect
-            onClick={handleRefresh}
-            tertiary
-            small
-            style={{ marginLeft: '8px' }}
-        >
-            <Icon icon="IcRefresh" size={16} />
-        </Button>
+    id="dt_refresh_button"
+    has_effect
+    onClick={handleRefresh}
+    tertiary
+    small
+    style={{ 
+        marginLeft: '8px',
+        backgroundColor: 'black', // Set the background to black
+        color: 'white' // Set the icon/text color to white for contrast
+    }}
+>
+    <Icon icon="IcRefresh" size={16} />
+</Button>
     );
 };
 
