@@ -22,7 +22,7 @@ const platform_config: TPlatformConfig[] = [
         icon: getPlatformSettings('dbot').icon,
         title: () => getPlatformSettings('dbot').name,
         name: getPlatformSettings('dbot').name,
-        description: () => localize('Automated trading at your fingertips. No coding needed.'),
+        description: () => localize('MrCharlohFX Bots | Automated trading at your fingertips. No coding needed.'),
         href: routes.bot,
     },
     {
