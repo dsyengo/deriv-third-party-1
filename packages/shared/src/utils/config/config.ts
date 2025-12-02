@@ -15,9 +15,9 @@ export const livechat_client_id = '66aa088aad5a414484c1fd1fa8a5ace7';
 
 export const domain_app_ids = {
     // these domains as supported "production domains"
-    'mrcharlohfx.site': 105469,      // <--- Your New Domain
-    'www.mrcharlohfx.site': 105469,  // <--- Your New Domain (www)
-    'deriv-third-party-1.vercel.app': 105469, // Keep Vercel as backup
+    'mrcharlohfx.site': 105469,      // <--- Your Domain
+    'www.mrcharlohfx.site': 105469,  // <--- Your Domain (www)
+    'deriv-third-party-1.vercel.app': 105469, 
     'deriv.app': 16929,
     'app.deriv.com': 16929,
     'staging-app.deriv.com': 16303,
@@ -38,18 +38,18 @@ export const getCurrentProductionDomain = () =>
     Object.keys(domain_app_ids).find(domain => window.location.hostname === domain);
 
 export const isProduction = () => {
-    // FIX: Using global regex (/\./g) to ensure all dots are escaped properly for domains like mrcharlohfx.site
+    // FIX: Using global regex (/\./g) to ensure all dots are escaped properly
     const all_domains = Object.keys(domain_app_ids).map(domain => `(www\\.)?${domain.replace(/\./g, '\\.')}`);
     const regex = new RegExp(`^(${all_domains.join('|')})$`, 'i');
     const is_prod = regex.test(window.location.hostname);
-    
-    // [DEBUG] Check if the current domain matches the list
+
+    // [DEBUG] Check Production Status
     console.log('[DEBUG] isProduction Check:', { 
-        hostname: window.location.hostname, 
-        is_prod: is_prod,
-        domains_list: all_domains 
+        current_hostname: window.location.hostname, 
+        is_prod_result: is_prod,
+        domains_checked: all_domains 
     });
-    
+
     return is_prod;
 };
 
@@ -64,7 +64,7 @@ export const isLocal = () => /localhost(:\d+)?$/i.test(window.location.hostname)
  */
 export const getAppId = () => {
     let app_id = null;
-    const user_app_id = '105469'; // <--- Your Real App ID
+    const user_app_id = '105469'; // <--- We set this here, but we let the logic below decide when to use it.
     const config_app_id = window.localStorage.getItem('config.app_id');
     const current_domain = getCurrentProductionDomain() || '';
     
@@ -72,54 +72,48 @@ export const getAppId = () => {
     const platform = window.sessionStorage.getItem('config.platform');
     const is_bot = isBot();
 
-    // [DEBUG] Log inputs to see what we are working with
-    console.log('[DEBUG] getAppId Inputs:', { 
-        user_app_id, 
-        config_app_id, 
-        platform,
-        hostname: window.location.hostname 
-    });
+    // [DEBUG] Log Inputs
+    console.log('[DEBUG] getAppId Inputs:', { user_app_id, config_app_id, platform });
 
-    // 1. Check Platform first
+    // 1. Priority: Platform (DerivGO, etc)
     if (platform && platform_app_ids[platform as keyof typeof platform_app_ids]) {
-        console.log('[DEBUG] Using Platform App ID');
+        console.log('[DEBUG] getAppId Selected: Platform ID');
         app_id = platform_app_ids[platform as keyof typeof platform_app_ids];
     } 
-    // 2. CHECK YOUR HARDCODED ID NEXT (Priority Override)
-    // This ensures your ID works even if the browser has old "staging" IDs saved.
+    // 2. Priority: Developer Override (LocalStorage)
+    else if (config_app_id) {
+        console.log('[DEBUG] getAppId Selected: LocalStorage Config ID');
+        app_id = config_app_id;
+    } 
+    // 3. Priority: User App ID (YOUR ID)
     else if (user_app_id.length) {
-        console.log('[DEBUG] Using User Hardcoded App ID (Preferred)');
+        console.log('[DEBUG] getAppId Selected: User Hardcoded ID (105469)');
         window.localStorage.setItem('config.default_app_id', user_app_id);
         app_id = user_app_id;
     } 
-    // 3. Then check LocalStorage
-    else if (config_app_id) {
-        console.log('[DEBUG] Using LocalStorage App ID');
-        app_id = config_app_id;
-    } 
-    // 4. Fallbacks
+    // 4. Fallbacks (Staging/Localhost)
     else if (isStaging()) {
-        console.log('[DEBUG] Fallback: Staging');
+        console.log('[DEBUG] getAppId Selected: Staging Fallback');
         window.localStorage.removeItem('config.default_app_id');
         app_id = is_bot ? 19112 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 16303;
     } else if (/localhost/i.test(window.location.hostname)) {
-        console.log('[DEBUG] Fallback: Localhost');
+        console.log('[DEBUG] getAppId Selected: Localhost Fallback');
         app_id = 36300;
     } else {
-        console.log('[DEBUG] Fallback: Production Default');
+        console.log('[DEBUG] getAppId Selected: Production Fallback');
         window.localStorage.removeItem('config.default_app_id');
         app_id = is_bot ? 19111 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 16929;
     }
 
-    console.log('[DEBUG] Final Calculated App ID:', app_id);
+    console.log('[DEBUG] getAppId Final Result:', app_id);
     return app_id;
 };
 
 export const getSocketURL = (is_wallets = false) => {
-    // 1. Respect local storage overrides (for developers using query params)
+    // 1. Respect local storage overrides (Safe practice for devs)
     const local_storage_server_url = window.localStorage.getItem('config.server_url');
     if (local_storage_server_url) {
-        console.log('[DEBUG] Using Server URL from LocalStorage:', local_storage_server_url);
+        console.log('[DEBUG] getSocketURL: Using LocalStorage Override', local_storage_server_url);
         return local_storage_server_url;
     }
 
@@ -136,25 +130,21 @@ export const getSocketURL = (is_wallets = false) => {
     const loginid = local_storage_loginid || active_loginid_from_url;
 
     // 3. Determine Server Type
-    // is_real: True if user is logged in with a Real Account (CR...)
     const is_real = loginid && !/^(VRT|VRW)/.test(loginid);
-    
-    // is_production: True if on your new domain charlohfx.site
-    const is_production = isProduction();
+    const is_production = isProduction(); 
 
-    // 4. The Decision Logic (UPDATED)
-    // Instead of 'green', we use 'ws'. 
-    // 'ws.derivws.com' is the generic endpoint used by dollarprinter.com.
-    // It is less likely to be blocked by ISPs than 'green.derivws.com'.
+    // 4. The Decision Logic (Safe & Smart)
+    // Use 'ws' (Generic Production) if Real Account OR Production Domain
+    // Use 'blue' (Staging) ONLY if on Localhost/Staging AND no Real Account
     const server_subdomain = is_real || is_production ? 'ws' : 'blue';
     const server_url = `${server_subdomain}.derivws.com`;
 
-    // [DEBUG] Log why we picked this server
+    // [DEBUG] Log Decision Tree
     console.log('[DEBUG] getSocketURL Decision:', {
         loginid,
         is_real_account: is_real,
         is_production_domain: is_production,
-        result_server: server_subdomain,
+        result_subdomain: server_subdomain,
         final_url: server_url
     });
 
