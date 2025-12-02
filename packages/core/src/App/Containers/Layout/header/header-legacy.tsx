@@ -2,19 +2,26 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { useIsHubRedirectionEnabled } from '@deriv/hooks';
-import { platforms, routes } from '@deriv/shared';
+// -----------------------------------------------------------------------------
+// [INSTRUCTION]: UNCOMMENT THESE IMPORTS IN YOUR LOCAL PROJECT
+// -----------------------------------------------------------------------------
 import { observer, useStore } from '@deriv/stores';
 import { useDevice } from '@deriv-com/ui';
-
+import { useIsHubRedirectionEnabled } from '@deriv/hooks';
+import { platforms, routes } from '@deriv/shared';
+import { Button } from '@deriv/components'; 
+import { Localize } from '@deriv/translations';
 import { AccountsInfoLoader } from 'App/Components/Layout/Header/Components/Preloader';
 import CurrencySelectionModal from 'App/Containers/CurrencySelectionModal';
 import NewVersionNotification from 'App/Containers/new-version-notification.jsx';
 import RealAccountSignup from 'App/Containers/RealAccountSignup';
 import SetAccountCurrencyModal from 'App/Containers/SetAccountCurrencyModal';
-
 import DerivShortLogo from './deriv-short-logo';
 import HeaderAccountActions from './header-account-actions';
+import ContactUsModal from './contact-us-modal';
+import RefreshButton from './refresh-button';
+import PriceIndicator from './price-indicator';
+
 
 const HeaderLegacy = observer(() => {
     const { client, common, ui, notifications, traders_hub } = useStore();
@@ -37,9 +44,11 @@ const HeaderLegacy = observer(() => {
     const { isHubRedirectionEnabled, isHubRedirectionLoaded } = useIsHubRedirectionEnabled();
 
     const { isDesktop } = useDevice();
-
     const history = useHistory();
     const { pathname } = useLocation();
+
+    // State for Contact Modal
+    const [is_contact_open, setContactOpen] = React.useState(false);
 
     const traders_hub_routes =
         [routes.traders_hub].includes(pathname) ||
@@ -78,7 +87,6 @@ const HeaderLegacy = observer(() => {
         routes.positions,
         routes.profit,
         routes.statement,
-        /** because contract route has dynamic id */
         '/contract',
     ];
 
@@ -103,17 +111,29 @@ const HeaderLegacy = observer(() => {
         >
             <div className='header__menu-items'>
                 <div className='header__menu-left'>
-                    {/* REMOVED:
-                        - ToggleMenuDrawer (Mobile Hamburger)
-                        - TradersHubHomeButton
-                        - MenuLinks (Navigation)
-                        - PlatformSwitcher (Dropdown)
-                    */}
-                    
-                    {/* Always show just the Logo */}
+                    {/* 1. LOGO */}
                     <DerivShortLogo />
-                    
-                    {/* If there are specific header extensions (plugins), keep them, otherwise this area is clean */}
+
+                    {/* 2. CUSTOM ACTION BAR (Visible on Mobile & Desktop) */}
+                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: isDesktop ? '16px' : '8px', gap: '8px' }}>
+                        {/* Contact Button */}
+                        <Button 
+                            id="dt_contact_us_button"
+                            has_effect
+                            text={isDesktop ? <Localize i18n_default_text="Contact" /> : "Contact"}
+                            onClick={() => setContactOpen(true)}
+                            tertiary
+                            small
+                        />
+
+                        {/* Refresh Button */}
+                        <RefreshButton />
+
+                        {/* Price Indicator (Only Price) - Pass tick data here if available in store */}
+                        <PriceIndicator price="100.50" /> 
+                    </div>
+
+                    {/* Mobile Extensions */}
                     {!isDesktop && header_extension && is_logged_in && (
                         <div className='header__menu-left-extensions'>{header_extension}</div>
                     )}
@@ -148,6 +168,10 @@ const HeaderLegacy = observer(() => {
                     )}
                 </div>
             </div>
+            
+            {/* MODALS & NOTIFICATIONS */}
+            <ContactUsModal is_open={is_contact_open} toggleModal={() => setContactOpen(false)} />
+            
             {is_real_acc_signup_on && <RealAccountSignup />}
             <SetAccountCurrencyModal />
             <CurrencySelectionModal is_visible={modal_data.active_modal === 'currency_selection'} />
