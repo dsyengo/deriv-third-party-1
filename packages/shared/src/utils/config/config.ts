@@ -38,7 +38,7 @@ export const getCurrentProductionDomain = () =>
     Object.keys(domain_app_ids).find(domain => window.location.hostname === domain);
 
 export const isProduction = () => {
-    // FIX: Using global regex (/\./g) to ensure all dots are escaped properly for domains like charlohfx.site
+    // FIX: Using global regex (/\./g) to ensure all dots are escaped properly for domains like mrcharlohfx.site
     const all_domains = Object.keys(domain_app_ids).map(domain => `(www\\.)?${domain.replace(/\./g, '\\.')}`);
     const regex = new RegExp(`^(${all_domains.join('|')})$`, 'i');
     const is_prod = regex.test(window.location.hostname);
@@ -142,18 +142,20 @@ export const getSocketURL = (is_wallets = false) => {
     // is_production: True if on your new domain charlohfx.site
     const is_production = isProduction();
 
-    // 4. The Decision Logic
-    // Use Green if: User has Real Account OR User is on your Production Website
-    // Use Blue if: User is on Localhost/Staging AND has no Real Account
-    const server = is_real || is_production ? 'green' : 'blue';
-    const server_url = `${server}.derivws.com`;
+    // 4. The Decision Logic (UPDATED)
+    // Instead of 'green', we use 'ws'. 
+    // 'ws.derivws.com' is the generic endpoint used by dollarprinter.com.
+    // It is less likely to be blocked by ISPs than 'green.derivws.com'.
+    const server_subdomain = is_real || is_production ? 'ws' : 'blue';
+    const server_url = `${server_subdomain}.derivws.com`;
 
     // [DEBUG] Log why we picked this server
     console.log('[DEBUG] getSocketURL Decision:', {
         loginid,
         is_real_account: is_real,
         is_production_domain: is_production,
-        result_server: server
+        result_server: server_subdomain,
+        final_url: server_url
     });
 
     return server_url;
