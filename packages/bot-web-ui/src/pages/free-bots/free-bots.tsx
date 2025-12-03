@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text } from '@deriv/components';
 import { Localize, localize } from '@deriv/translations';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 // FIX 1: Import useStore correctly
 import { useStore } from '@deriv/stores'; 
 // FIX 2: If there is a specific local hook, it is usually imported like this:
