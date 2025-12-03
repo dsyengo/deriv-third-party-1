@@ -4,7 +4,6 @@
     position: relative;
     width: 100%;
     // Calculate exact height: Viewport - Header Height (approx 8.4rem)
-    // This ensures the scrollbar appears inside this container, not the whole page.
     height: calc(100vh - 8.4rem); 
     overflow-y: auto;
     background-color: var(--general-main-1);
@@ -55,27 +54,26 @@
     // --- Responsive Grid ---
     &__grid {
         display: grid;
-        // This magic line creates a responsive grid that fills the width automatically
-        // Cards will be at least 320px wide, but will stretch to fill available space.
+        // Smart Grid: Cards will be at least 300px wide, stretching to fill space.
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 2.4rem;
         max-width: 1400px;
         margin: 0 auto;
-        padding-bottom: 8rem; // Extra space at bottom for scrolling
+        padding-bottom: 8rem;
     }
 
     // --- Loading Overlay ---
     &__loader {
         position: fixed;
-        inset: 0; // shorthand for top/right/bottom/left: 0
+        inset: 0; 
         background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(5px); // Modern blur effect
+        backdrop-filter: blur(5px);
         z-index: 9999;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: #ffffff; /* FIX: Changed 'white' to '#ffffff' */
     }
 }
 
@@ -88,18 +86,17 @@
     border: 1px solid var(--border-normal);
     border-radius: 16px;
     padding: 2.4rem;
-    height: 100%; // Ensures equal height in grid
+    height: 100%;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     cursor: default;
 
-    // Initial Shadow
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
 
-    // Hover State: Lift and Glow
+    // Hover Effect
     &:hover {
         transform: translateY(-6px);
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-        border-color: var(--brand-secondary); // Highlight border on hover
+        border-color: var(--brand-secondary);
     }
 
     &__header {
@@ -118,7 +115,8 @@
         background: var(--general-main-2);
         border-radius: 12px;
         border: 1px solid var(--border-normal);
-        color: var(--brand-secondary); // Icon color
+        color: var(--brand-secondary);
+        flex-shrink: 0;
     }
 
     &__info {
@@ -129,8 +127,8 @@
         font-size: 1.8rem;
         font-weight: 700;
         color: var(--text-prominent);
-        margin-bottom: 0.4rem;
         line-height: 1.2;
+        margin-bottom: 0.4rem;
     }
 
     &__rating {
@@ -144,9 +142,8 @@
         line-height: 1.6;
         color: var(--text-general);
         margin-bottom: 2.4rem;
-        flex-grow: 1; // Pushes actions to the bottom
+        flex-grow: 1;
         
-        // Clean truncation for long text
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
@@ -155,11 +152,10 @@
 
     &__actions {
         display: grid;
-        grid-template-columns: 1fr 1.5fr; // "Load" button gets more space
+        grid-template-columns: 1fr 1.5fr;
         gap: 1.2rem;
         margin-top: auto;
 
-        // Override Deriv button styles slightly for this card
         button {
             justify-content: center;
             height: 40px;
