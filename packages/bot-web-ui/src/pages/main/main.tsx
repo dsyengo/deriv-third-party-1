@@ -16,6 +16,7 @@ import ChartModal from '../chart/chart-modal';
 import Dashboard from '../dashboard';
 import RunStrategy from '../dashboard/run-strategy';
 import Tutorial from '../tutorials';
+import FreeBots from '../free-bots';
 import { tour_list } from '../tutorials/dbot-tours/utils';
 
 const AppWrapper = observer(() => {
@@ -41,7 +42,7 @@ const AppWrapper = observer(() => {
     const { ui } = useStore();
     const { url_hashed_values, is_desktop } = ui;
 
-    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial'];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'free_bots'];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {
@@ -186,13 +187,20 @@ const AppWrapper = observer(() => {
                                 <Tutorial handleTabChange={handleTabChange} />
                             </div>
                         </div>
+                        <div
+                            icon='IcMarket' 
+                            label={<Localize i18n_default_text='Free Bots' />}
+                            id='id-free-bots'
+                        >
+                            <FreeBots /> 
+                        </div>
                     </Tabs>
                 </div>
             </div>
             {is_desktop ? (
                 <>
                     <div className='main__run-strategy-wrapper'>
-                        {active_tab !== 4 && (
+                        {active_tab !== DBOT_TABS.TUTORIAL &&  active_tab !== DBOT_TABS.FREE_BOTS && (
                             <>
                                 <RunStrategy />
                                 <RunPanel />

@@ -327,10 +327,8 @@ const lazyLoadComplaintsPolicy = makeLazyLoader(
 
 // Order matters
 const initRoutesConfig = () => [
-    // --- REMOVED: The redirect from index to traders_hub ---
-    // { path: routes.index, component: RouterRedirect, getTitle: () => '', to: routes.traders_hub },
-
-    { path: routes.endpoint, component: Endpoint, getTitle: () => 'Endpoint' },
+    { path: routes.index, component: RouterRedirect, getTitle: () => 'traders-hub', to: routes.traders_hub },
+    { path: routes.endpoint, component: Endpoint, getTitle: () => 'Endpoint' }, // doesn't need localization as it's for internal use
     { path: routes.os_redirect, component: OSRedirect, getTitle: () => localize('Redirect') },
     { path: routes.redirect, component: Redirect, getTitle: () => localize('Redirect') },
     { path: routes.callback_page, component: CallbackPage, getTitle: () => 'Callback' },
@@ -343,8 +341,6 @@ const initRoutesConfig = () => [
     },
     ...getModules(),
 ];
-
-let routesConfig;
 
 // For default page route if page/path is not found
 const route_default = { component: Page404, getTitle: () => localize('Error 404') };
