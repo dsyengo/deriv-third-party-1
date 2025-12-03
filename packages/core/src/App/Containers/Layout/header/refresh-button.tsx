@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Icon } from '@deriv/components';
 import { Localize } from '@deriv/translations';

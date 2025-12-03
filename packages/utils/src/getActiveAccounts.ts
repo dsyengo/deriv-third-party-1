@@ -63,9 +63,10 @@ const getActiveSessions = async () => {
         const data = await requestSessionActive();
         return data;
     } catch (error) {
-        // We silence the error here because failing to get active sessions
-        // is expected behavior for third-party domains (CORS block).
-        // Returning undefined tells the app "No active session found".
+        // SILENT FIX:
+        // CORS blocks this request on third-party domains. This is expected.
+        // We return undefined so the app treats it as "Not Logged In" 
+        // and allows the user to log in manually via the button.
         return undefined;
     }
 };

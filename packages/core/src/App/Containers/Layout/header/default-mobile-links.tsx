@@ -1,59 +1,40 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { Button, Icon } from '@deriv/components';
-import { useIsRealAccountNeededForCashier, useAccountSettingsRedirect } from '@deriv/hooks';
-import { routes } from '@deriv/shared';
-import { useStore } from '@deriv/stores';
-import { Localize } from '@deriv/translations';
+import { useAccountSettingsRedirect } from '@deriv/hooks';
+import { Icon } from '@deriv/components';
+import { observer, useStore } from '@deriv/stores';
 import ShowNotifications from './show-notifications';
-import TradersHubOnboarding from './traders-hub-onboarding';
 
-const DefaultMobileLinks = React.memo(() => {
-    const { client, ui } = useStore();
-    const { has_any_real_account, has_wallet, is_virtual } = client;
-    const { toggleNeedRealAccountForCashierModal, toggleReadyToDepositModal } = ui;
+const DefaultMobileLinks = observer(() => {
+    // 1. Access UI Store for Dark Mode
+    const { ui } = useStore();
+    const { is_dark_mode_on, setDarkMode } = ui;
 
-    const history = useHistory();
     const { redirect_url } = useAccountSettingsRedirect();
-
-    const real_account_needed_for_cashier = useIsRealAccountNeededForCashier();
-
-    const toggleModal = () => {
-        if (!has_any_real_account) {
-            toggleReadyToDepositModal();
-        } else if (history.location.pathname === routes.traders_hub) {
-            toggleNeedRealAccountForCashierModal();
-        }
-    };
-
-    const handleClickCashier = () => {
-        if ((!has_any_real_account && is_virtual) || real_account_needed_for_cashier) {
-            toggleModal();
-        } else {
-            history.push(routes.cashier_deposit as unknown as Parameters<typeof history.push>[0]);
-        }
-    };
 
     return (
         <React.Fragment>
-            {has_wallet && (
-                <div className='traders-hub-header__menu-right--items--onboarding'>
-                    <TradersHubOnboarding />
-                </div>
-            )}
+            {/* 2. Theme Toggle Button (Added) */}
+            <div 
+                className='traders-hub-header__menu-right--items--theme-toggle'
+                onClick={() => setDarkMode(!is_dark_mode_on)}
+                style={{ marginRight: '16px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+            >
+                {/* Shows a Moon if light (to switch to dark), Sun if dark (to switch to light) */}
+                <Icon 
+                    icon={is_dark_mode_on ? 'IcThemeLight' : 'IcThemeDark'} 
+                    size={20} 
+                />
+            </div>
+
+            {/* 3. Notifications */}
             <div className='traders-hub-header__menu-right--items--notifications'>
                 <ShowNotifications />
             </div>
+
+            {/* 4. Profile / Settings */}
             <a className='traders-hub-header__setting' href={redirect_url}>
                 <Icon icon='IcUserOutline' size={20} />
             </a>
-            {!has_wallet && (
-                <div className='traders-hub-header__cashier-button'>
-                    <Button primary small onClick={handleClickCashier}>
-                        <Localize i18n_default_text='Cashier' />
-                    </Button>
-                </div>
-            )}
         </React.Fragment>
     );
 });

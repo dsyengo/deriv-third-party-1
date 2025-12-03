@@ -137,8 +137,12 @@ const AppContent: React.FC<{ passthrough: unknown }> = observer(({ passthrough }
         setIsPasskeySupported,
     ]);
 
-    React.useEffect(() => {
-        initDatadog(tracking_datadog);
+   React.useEffect(() => {
+        // FIX: Only initialize Datadog if the configuration exists and has a valid ID.
+        // This prevents the SDK from crashing on your third-party domain where keys are missing.
+        if (tracking_datadog?.application_id) {
+            initDatadog(tracking_datadog);
+        }
     }, [tracking_datadog]);
 
     React.useEffect(() => {
