@@ -21,10 +21,9 @@ const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
             gap: '12px',
             minWidth: '280px',
             maxWidth: '350px',
-            flex: '1 1 300px', // Responsive flex
+            flex: '1 1 300px',
             boxShadow: '0 4px 8px rgba(0,0,0,0.05)'
         }}>
-            {/* Header: Icon & Name */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ 
                     padding: '8px', 
@@ -32,13 +31,12 @@ const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
                     background: 'var(--general-main-2)',
                     border: '1px solid var(--border-normal)'
                 }}>
-                    <Icon icon="IcBot" size={24} />
+                    <Icon icon="IcBot" size={32} />
                 </div>
                 <div>
                     <Text weight="bold" size="s" color="prominent" lineHeight="m">
                         {bot.name}
                     </Text>
-                    {/* Star Rating */}
                     <div style={{ display: 'flex', gap: '2px', marginTop: '2px' }}>
                         {[...Array(5)].map((_, i) => (
                             <Icon 
@@ -52,12 +50,10 @@ const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
                 </div>
             </div>
 
-            {/* Description */}
             <Text size="xs" lineHeight="m" color="general" style={{ flexGrow: 1 }}>
                 {bot.description}
             </Text>
 
-            {/* Actions */}
             <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
                 <Button 
                     secondary 

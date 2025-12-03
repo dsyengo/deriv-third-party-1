@@ -24,7 +24,8 @@ const BotDetailsModal = ({ is_open, toggleModal, bot, onLoad }: TBotDetailsModal
                         paddingBottom: '56.25%', // 16:9 Aspect Ratio 
                         height: 0, 
                         overflow: 'hidden',
-                        borderRadius: '8px'
+                        borderRadius: '8px',
+                        backgroundColor: 'var(--general-section-1)'
                     }}>
                         <iframe 
                             style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
