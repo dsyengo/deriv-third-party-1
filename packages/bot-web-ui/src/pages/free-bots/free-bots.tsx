@@ -9,8 +9,7 @@ import { loadBotFromUrl } from '../../utils/bot-loader';
 import BotCard from './bot-card';
 import BotDetailsModal from './bot-details-modal';
 
-// Import the SCSS we just wrote
-import './free-bots.scss'; 
+
 
 const FreeBots = observer(() => {
     const [selectedBot, setSelectedBot] = useState<TFreeBot | null>(null);

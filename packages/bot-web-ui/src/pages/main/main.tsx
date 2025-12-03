@@ -15,8 +15,9 @@ import Chart from '../chart';
 import ChartModal from '../chart/chart-modal';
 import Dashboard from '../dashboard';
 import RunStrategy from '../dashboard/run-strategy';
-import Tutorial from '../tutorials';
+// import Tutorial from '../tutorials';
 import FreeBots from '../free-bots';
+import TradingViewPage from '../trading-view';
 import { tour_list } from '../tutorials/dbot-tours/utils';
 
 const AppWrapper = observer(() => {
@@ -155,6 +156,7 @@ const AppWrapper = observer(() => {
                         onTabItemClick={handleTabChange}
                         top
                     >
+                        {/* START OF TABS */}
                         <div
                             icon='IcDashboardComponentTab'
                             label={<Localize i18n_default_text='Dashboard' />}
@@ -178,7 +180,7 @@ const AppWrapper = observer(() => {
                         >
                             <Chart show_digits_stats={false} />
                         </div>
-                        <div
+                        {/* <div
                             icon='IcTutorialsTabs'
                             label={<Localize i18n_default_text='Tutorials' />}
                             id='id-tutorials'
@@ -186,7 +188,7 @@ const AppWrapper = observer(() => {
                             <div className='tutorials-wrapper'>
                                 <Tutorial handleTabChange={handleTabChange} />
                             </div>
-                        </div>
+                        </div> */}
                         <div
                             icon='IcAppStore' 
                             label={<Localize i18n_default_text='Free Bots' />}
@@ -194,13 +196,22 @@ const AppWrapper = observer(() => {
                         >
                             <FreeBots /> 
                         </div>
+                        <div
+                            icon='IcCharts'
+                            label={<Localize i18n_default_text='TradingView' />}
+                            id='id-trading-view'
+                        >
+                            <TradingViewPage />
+                        </div>
+
+                        {/* END OF TABS */}
                     </Tabs>
                 </div>
             </div>
             {is_desktop ? (
                 <>
                     <div className='main__run-strategy-wrapper'>
-                        {active_tab !== DBOT_TABS.TUTORIAL &&  active_tab !== DBOT_TABS.FREE_BOTS && (
+                        {active_tab !== active_tab !== DBOT_TABS.FREE_BOTS && active_tab !== DBOT_TABS.TRADING_VIEW && (
                             <>
                                 <RunStrategy />
                                 <RunPanel />
