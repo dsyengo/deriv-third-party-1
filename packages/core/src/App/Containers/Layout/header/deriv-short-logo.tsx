@@ -3,7 +3,7 @@ import { Button, Icon, Modal, Text, StaticUrl } from '@deriv/components';
 import { Localize } from '@deriv/translations';
 import DerivBrandShortLogo from 'Assets/SvgComponents/header/site-logo.svg';
 
-// --- Helper Components for Modal (Defined within the same file) ---
+// --- Helper Components for Modal ---
 
 type TSocialLinkProps = {
     icon: string;
@@ -45,7 +45,17 @@ type TContactUsModalProps = {
 
 const ContactUsModal = ({ is_open, toggleModal }: TContactUsModalProps) => {
     return (
-        <Modal is_open={is_open} toggleModal={toggleModal} title={<Localize i18n_default_text="Contact Support" />} width="400px">
+        <Modal 
+            is_open={is_open} 
+            toggleModal={toggleModal} 
+            // MODAL TITLE: Using Icon as requested
+            title={
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Icon icon="IcLiveChat" size={24} color="var(--text-prominent)" />
+                </div>
+            }
+            width="400px"
+        >
             <div style={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
                 <Text as="p" size="xs" style={{ marginBottom: '16px' }}>
                     <Localize i18n_default_text="Reach out to us on any of these platforms:" />
@@ -58,7 +68,15 @@ const ContactUsModal = ({ is_open, toggleModal }: TContactUsModalProps) => {
                 <SocialLink icon="IcTwitter" text="Twitter / X" href="https://twitter.com/MrCharlohFX" />
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                    <Button has_effect text={<Localize i18n_default_text="Close" />} onClick={toggleModal} secondary large />
+                    {/* CRITICAL FIX: type="button" prevents the crash/blank screen */}
+                    <Button 
+                        has_effect 
+                        text={<Localize i18n_default_text="Close" />} 
+                        onClick={toggleModal} 
+                        secondary 
+                        large 
+                        type="button" 
+                    />
                 </div>
             </div>
         </Modal>
@@ -73,7 +91,6 @@ const DerivShortLogo = () => {
     const toggleModal = () => setIsModalOpen(!is_modal_open);
 
     return (
-        // The main container is set to flex to align the logo link and the new icon trigger
         <div className='header__menu-left-logo' style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             
             {/* Logo and Name Link */}
@@ -110,20 +127,24 @@ const DerivShortLogo = () => {
                 </span>
             </StaticUrl>
 
-            {/* MESSAGE ICON TRIGGER (After the logo name) */}
+            {/* MESSAGE ICON TRIGGER */}
             <div 
                 onClick={toggleModal}
                 style={{ 
                     cursor: 'pointer', 
-                    padding: '4px', // Increased click area
+                    padding: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}
                 title="Contact Support" 
             >
-                {/* We use IcMessage to replace the contact button */}
-                <Icon icon='IcMessage' size={24} color='var(--brand-red-coral)' />
+                {/* Dark Blue Message Icon (Size 30) */}
+                <Icon 
+                    icon='IcMessage' 
+                    size={30} 
+                    color='#101928' 
+                />
             </div>
 
             {/* The Contact Modal Component */}

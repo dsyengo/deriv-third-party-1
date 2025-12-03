@@ -26,7 +26,10 @@ export const routes = {
     // platforms
     mt5: '/mt5',
     dxtrade: '/derivx',
-    bot: '/bot',
+    
+    // --- CHANGE 1: Set Bot to Root ---
+    bot: '/', 
+    
     trade: '/dtrader',
     trader_positions: '/dtrader/positions',
     smarttrader: getUrlSmartTrader(),
@@ -94,7 +97,10 @@ export const routes = {
 
     // Appstore
     old_traders_hub: '/appstore/traders-hub',
-    traders_hub: '/',
+    
+    // --- CHANGE 2: Move Traders Hub away from Root ---
+    traders_hub: '/traders-hub',
+    
     onboarding: '/onboarding',
     compare_cfds: '/cfd-compare-accounts',
 

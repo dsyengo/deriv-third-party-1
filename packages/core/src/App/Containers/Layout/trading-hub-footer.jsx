@@ -61,12 +61,20 @@ const RiskDisclaimerModal = ({ is_open, toggleModal }) => (
             </ul>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                <Button has_effect text={<Localize i18n_default_text="I Understand" />} onClick={toggleModal} primary large />
+                {/* FIX: Added type="button" here to prevent the blank screen/crash */}
+                <Button 
+                    has_effect 
+                    text={<Localize i18n_default_text="I Understand" />} 
+                    onClick={toggleModal} 
+                    primary 
+                    large 
+                    type="button" 
+                />
             </div>
         </div>
     </Modal>
 );
-// Add PropTypes for the Modal component for better development practices
+
 RiskDisclaimerModal.propTypes = {
     is_open: PropTypes.bool,
     toggleModal: PropTypes.func,
@@ -76,24 +84,47 @@ RiskDisclaimerModal.propTypes = {
 // 2. RISK DISCLAIMER TRIGGER COMPONENT
 // ----------------------------------------------------------------------
 
-// Removed the TypeScript type definition (TRiskDisclaimerProps)
 const RiskDisclaimer = ({ showPopover, toggleModal }) => {
-    const icon = (
-        <div onClick={toggleModal} style={{ cursor: 'pointer' }}>
-            {/* Assuming IcWarning is a defined Icon component */}
-            <Icon icon='IcWarning' className='footer__icon' />
+    // FIX: Updated design to show Icon + Text and make it larger
+    const content = (
+        <div 
+            onClick={toggleModal} 
+            style={{ 
+                cursor: 'pointer', 
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '0 8px',
+                height: '100%'
+            }}
+            className="risk-disclaimer-trigger" // You can target this class in CSS if needed
+        >
+            <Icon 
+                icon='IcWarning' 
+                size={20} // Increased size
+                className='footer__icon' 
+                color="loss-danger" // Optional: makes the icon red/purple (warning color)
+            />
+            <Text 
+                size="xs" 
+                weight="bold" 
+                color="prominent"
+                style={{ lineHeight: '1', whiteSpace: 'nowrap' }}
+            >
+                <Localize i18n_default_text="Risk Disclaimer" />
+            </Text>
         </div>
     );
+
     return showPopover ? (
-        <Popover alignment='top' message={localize('Risk Disclaimer')} zIndex={9999}>
-            {icon}
+        <Popover alignment='top' message={localize('Read Risk Disclaimer')} zIndex={9999}>
+            {content}
         </Popover>
     ) : (
-        icon
+        content
     );
 };
 
-// Add PropTypes for the Trigger component
 RiskDisclaimer.propTypes = {
     showPopover: PropTypes.bool,
     toggleModal: PropTypes.func,
@@ -174,9 +205,11 @@ const TradingHubFooter = observer(() => {
             >
                 {/* Risk Disclaimer is placed on the left side */}
                 <div className='footer__links footer__links--left'>
-                    {/* NEW: Risk Disclaimer Trigger */}
+                    {/* Updated Risk Disclaimer Trigger */}
                     <RiskDisclaimer showPopover={showPopover} toggleModal={toggleRiskDisclaimerModal} />
+                    
                     <FooterIconSeparator />
+                    
                     {/* Existing dynamic left extensions */}
                     {footer_extensions_left.map(FooterExtensionRenderer)}
                 </div>
@@ -243,7 +276,6 @@ const TradingHubFooter = observer(() => {
 
 TradingHubFooter.propTypes = {
     location: PropTypes.object,
-    // Add other required prop-types here if TradingHubFooter receives any
 };
 
 export default withRouter(TradingHubFooter);
