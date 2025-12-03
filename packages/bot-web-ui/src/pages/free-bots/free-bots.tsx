@@ -9,7 +9,7 @@ import { loadBotFromUrl } from '../../utils/bot-loader';
 import BotCard from './bot-card';
 import BotDetailsModal from './bot-details-modal';
 
-// IMPORT THE SCSS FILE
+// Import the SCSS we just wrote
 import './free-bots.scss'; 
 
 const FreeBots = observer(() => {
@@ -18,6 +18,7 @@ const FreeBots = observer(() => {
     const [isLoading, setIsLoading] = useState(false);
 
     const rootStore = useStore();
+    // Accessing dashboard store safely
     // @ts-ignore 
     const { dashboard } = rootStore?.modules?.bot || rootStore; 
     const { setActiveTab } = dashboard || {};
@@ -34,7 +35,10 @@ const FreeBots = observer(() => {
         if (!confirmLoad) return;
 
         setIsLoading(true);
-        const result = await loadBotFromUrl(bot.xmlPath);
+
+        // Pass bot.name to update the workspace title
+        const result = await loadBotFromUrl(bot.xmlPath, bot.name);
+
         setIsLoading(false);
 
         if (result.success) {
@@ -50,12 +54,10 @@ const FreeBots = observer(() => {
     return (
         <div className="free-bots">
             {isLoading && (
-                <div className="free-bots__loader" style={{
-                    position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-                    background: 'rgba(0,0,0,0.5)', zIndex: 9999,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white'
-                }}>
-                    <Text color="colored-background" weight="bold" size="m">Loading Strategy...</Text>
+                <div className="free-bots__loader">
+                    <Text color="colored-background" weight="bold" size="m">
+                        <Localize i18n_default_text="Loading Strategy..." />
+                    </Text>
                 </div>
             )}
 

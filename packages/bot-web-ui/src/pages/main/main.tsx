@@ -188,7 +188,7 @@ const AppWrapper = observer(() => {
                             </div>
                         </div>
                         <div
-                            icon='IcMarket' 
+                            icon='IcAppStore' 
                             label={<Localize i18n_default_text='Free Bots' />}
                             id='id-free-bots'
                         >
