@@ -7,6 +7,7 @@ import { localize } from '@deriv/translations';
 
 import Redirect from 'App/Containers/Redirect';
 import Endpoint from 'Modules/Endpoint';
+import RootComponent from 'App/Containers/RootComponent';
 
 import CallbackPage from '../../Modules/Callback/CallbackPage.tsx';
 import OSRedirect from '../Containers/OSRedirect';
@@ -64,6 +65,13 @@ const getModules = () => {
             component: Bot,
             getTitle: () => localize('MrCharlohFX Bot'),
             exact: true, // Keep this true so it doesn't match /dtrader by mistake
+        },
+        // --- FIX: Add Traders Hub Back ---
+        {
+            path: routes.traders_hub, // This is '/traders-hub'
+            component: RootComponent,
+            is_authenticated: false,
+            getTitle: () => localize("Trader's Hub"),
         },
         {
             path: routes.reports,

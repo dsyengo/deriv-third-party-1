@@ -11,33 +11,16 @@ type TBotCardProps = {
 
 const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
     return (
-        <div style={{
-            border: '1px solid var(--border-normal)',
-            borderRadius: '8px',
-            padding: '16px',
-            backgroundColor: 'var(--general-section-1)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-            minWidth: '280px',
-            maxWidth: '350px',
-            flex: '1 1 300px',
-            boxShadow: '0 4px 8px rgba(0,0,0,0.05)'
-        }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ 
-                    padding: '8px', 
-                    borderRadius: '50%', 
-                    background: 'var(--general-main-2)',
-                    border: '1px solid var(--border-normal)'
-                }}>
+        <div className="bot-card">
+            <div className="bot-card__header">
+                <div className="bot-card__icon-wrapper">
                     <Icon icon="IcBot" size={32} />
                 </div>
-                <div>
-                    <Text weight="bold" size="s" color="prominent" lineHeight="m">
+                <div className="bot-card__info">
+                    <div className="bot-card__title">
                         {bot.name}
-                    </Text>
-                    <div style={{ display: 'flex', gap: '2px', marginTop: '2px' }}>
+                    </div>
+                    <div className="bot-card__rating">
                         {[...Array(5)].map((_, i) => (
                             <Icon 
                                 key={i} 
@@ -50,17 +33,15 @@ const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
                 </div>
             </div>
 
-            <Text size="xs" lineHeight="m" color="general" style={{ flexGrow: 1 }}>
+            <div className="bot-card__description">
                 {bot.description}
-            </Text>
+            </div>
 
-            {/* FIXED BUTTONS: Passing content as children */}
-            <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+            <div className="bot-card__actions">
                 <Button 
                     secondary 
                     has_effect 
                     onClick={() => onView(bot)}
-                    width="100%"
                 >
                     <Localize i18n_default_text="Details" />
                 </Button>
@@ -69,7 +50,6 @@ const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
                     primary 
                     has_effect 
                     onClick={() => onLoad(bot)}
-                    width="100%"
                 >
                     <Localize i18n_default_text="Load Bot" />
                 </Button>

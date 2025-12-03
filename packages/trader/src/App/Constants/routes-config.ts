@@ -5,6 +5,7 @@ import { localize } from '@deriv/translations';
 import Trade from 'Modules/Trading';
 import { TRouteConfig } from 'Types';
 
+
 const ContractDetails = React.lazy(
     () =>
         moduleLoader(() => import(/* webpackChunkName: "contract" */ 'Modules/Contract')) as Promise<{

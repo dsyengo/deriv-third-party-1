@@ -19,7 +19,7 @@ export const FREE_BOTS_LIST: TFreeBot[] = [
         'This bot evaluates short-term momentum shifts and triggers two coordinated prediction cycles. It adapts based on micro-trend reversals and uses controlled recovery to stabilize performance across ranging and mildly volatile markets.'
     ),
     rating: 4.5,
-    xmlPath: '../assets/free-bots/alpha-ai-two-predictions.xml',
+    xmlPath: '/free-bots/alpha-ai-two-predictions.xml',
     youtubeVideoId: '', // Optional
 },
     {
@@ -30,7 +30,7 @@ export const FREE_BOTS_LIST: TFreeBot[] = [
         'This bot tracks the distribution of even and odd tick outcomes to identify short-term statistical deviations. When imbalance thresholds are detected, the bot executes targeted entries aligned with expected sequence correction. Suitable for ranging and semi-volatile markets.'
     ),
     rating: 4.6,
-    xmlPath: '../assets/free-bots/mr-charloh-fx-even-odd-v1.xml',
+    xmlPath: '/free-bots/mr-charloh-fx-even-odd-v1.xml',
     youtubeVideoId: '', // Optional
 },
     {
@@ -41,7 +41,7 @@ export const FREE_BOTS_LIST: TFreeBot[] = [
         'This bot analyzes recent tick structures to detect recurring match patterns. When a recognizable sequence emerges, it enters trades aligned with the historical continuation behavior of that pattern. Effective in markets where micro-patterns frequently repeat.'
     ),
     rating: 4.6,
-    xmlPath: '../assets/free-bots/mr-charlohfx-matches.xml',
+    xmlPath: '/free-bots/mr-charlohfx-matches.xml',
     youtubeVideoId: '', // Optional
     },
     {
@@ -52,7 +52,7 @@ export const FREE_BOTS_LIST: TFreeBot[] = [
         'This bot continuously monitors volatility spikes and directional pressure. When conditions shift, it automatically switches between over and under modes to maintain optimal entry timing. Designed for fast-moving markets where rapid adaptation provides a tactical edge.'
     ),
     rating: 4.7,
-    xmlPath: '../assets/free-bots/over-auto-switch-killer.xml',
+    xmlPath: '/free-bots/over-auto-switch-killer.xml',
     youtubeVideoId: '', // Optional
     },
     {
@@ -63,7 +63,7 @@ export const FREE_BOTS_LIST: TFreeBot[] = [
         'This bot analyzes digit appearance patterns, tracking hot and cold numerical tendencies to detect profitable entry points. When probability deviations appear, it executes targeted predictions designed to capitalize on short-term digit biases. Ideal for high-frequency and pattern-driven markets.'
     ),
     rating: 4.7,
-    xmlPath: '../assets/free-bots/profitmax-digits-killer.xml',
+    xmlPath: '/free-bots/profitmax-digits-killer.xml',
     youtubeVideoId: '', // Optional
     },
     {
@@ -74,7 +74,7 @@ export const FREE_BOTS_LIST: TFreeBot[] = [
         'This bot evaluates micro-trend movements and volatility pressure to determine whether price is more likely to rise or fall. It adapts quickly to momentum changes, making it suitable for both ranging and trending market phases.'
     ),
     rating: 4.5,
-    xmlPath: '../assets/free-bots/rise-fall.xml',
+    xmlPath: '/free-bots/rise-fall.xml',
     youtubeVideoId: '', // Optional
     },
     {
@@ -85,7 +85,7 @@ export const FREE_BOTS_LIST: TFreeBot[] = [
         'This bot monitors short-term market swings, executing under-8 predictions while using an under-6 recovery system to mitigate losses. It dynamically adjusts entries based on recent price behavior, making it effective in ranging and moderately volatile markets.'
     ),
     rating: 4.6,
-    xmlPath: '../assets/free-bots/under-8-under-6-recovery.xml',
+    xmlPath: '/free-bots/under-8-under-6-recovery.xml',
     youtubeVideoId: '', // Optional
     },
     {
@@ -96,8 +96,8 @@ export const FREE_BOTS_LIST: TFreeBot[] = [
         'This bot monitors rapid price movements and volatility surges, entering trades when sudden spikes or drops are detected. It uses tight risk management and adaptive entry timing to maximize profit potential in fast-moving markets.'
     ),
     rating: 4.7,
-    xmlPath: '../assets/free-bots/volatilityviper.xml',
+    xmlPath: '/free-bots/volatilityviper.xml',
     youtubeVideoId: '', // Optional
-    },
+    },  
     
 ];
