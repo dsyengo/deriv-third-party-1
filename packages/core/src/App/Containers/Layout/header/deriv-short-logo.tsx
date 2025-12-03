@@ -78,7 +78,7 @@ const DerivShortLogo = () => {
             
             {/* Logo and Name Link */}
             <StaticUrl 
-                href='https://www.mrcharlohfx.site/' 
+                href='/' 
                 className='header__logo-link' 
                 style={{ 
                     display: 'flex', 
