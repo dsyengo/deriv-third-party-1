@@ -52,6 +52,9 @@ const ContactUsModal = ({ is_open, toggleModal }: TContactUsModalProps) => {
             title={
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Icon icon="IcLiveChat" size={24} color="var(--text-prominent)" />
+                    <Text weight="bold" size="s" color="prominent">
+                        <Localize i18n_default_text="Contact Us" />
+                    </Text>
                 </div>
             }
             width="400px"
@@ -68,15 +71,16 @@ const ContactUsModal = ({ is_open, toggleModal }: TContactUsModalProps) => {
                 <SocialLink icon="IcTwitter" text="Twitter / X" href="https://twitter.com/MrCharlohFX" />
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                    {/* CRITICAL FIX: type="button" prevents the crash/blank screen */}
+                    {/* FIX: Pass Localize as children, NOT as text prop */}
                     <Button 
                         has_effect 
-                        text={<Localize i18n_default_text="Close" />} 
                         onClick={toggleModal} 
                         secondary 
                         large 
                         type="button" 
-                    />
+                    >
+                        <Localize i18n_default_text="Close" />
+                    </Button>
                 </div>
             </div>
         </Modal>
@@ -154,10 +158,10 @@ const DerivShortLogo = () => {
                 onClick={toggleModal}
                 style={{ 
                     cursor: 'pointer', 
-                    padding: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    padding: '8px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center' 
                 }}
                 title="Contact Support" 
             >

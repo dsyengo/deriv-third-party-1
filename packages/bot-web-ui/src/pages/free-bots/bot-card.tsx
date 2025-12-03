@@ -54,21 +54,25 @@ const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
                 {bot.description}
             </Text>
 
+            {/* FIXED BUTTONS: Passing content as children */}
             <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
                 <Button 
                     secondary 
                     has_effect 
-                    text={<Localize i18n_default_text="Details" />} 
                     onClick={() => onView(bot)}
                     width="100%"
-                />
+                >
+                    <Localize i18n_default_text="Details" />
+                </Button>
+                
                 <Button 
                     primary 
                     has_effect 
-                    text={<Localize i18n_default_text="Load Bot" />} 
                     onClick={() => onLoad(bot)}
                     width="100%"
-                />
+                >
+                    <Localize i18n_default_text="Load Bot" />
+                </Button>
             </div>
         </div>
     );

@@ -60,11 +60,10 @@ const RedirectToNewTradersHub = () => {
 const getModules = () => {
     const modules = [
         {
-            path: routes.bot, // This is now '/' based on your routes.ts change
+            path: routes.bot, // This is '/'
             component: Bot,
-            // Changed Title to your Brand Name
             getTitle: () => localize('MrCharlohFX Bot'),
-            exact: true,
+            exact: true, // <--- CRITICAL: Keep this true!
         },
         {
             path: routes.reports,
@@ -327,7 +326,7 @@ const lazyLoadComplaintsPolicy = makeLazyLoader(
 
 // Order matters
 const initRoutesConfig = () => [
-    { path: routes.index, component: RouterRedirect, getTitle: () => '/traders-hub', to: routes.traders_hub },
+    { path: routes.index, component: RouterRedirect, getTitle: () => localize('Traders Hub'), to: routes.traders_hub },
     { path: routes.endpoint, component: Endpoint, getTitle: () => 'Endpoint' }, // doesn't need localization as it's for internal use
     { path: routes.os_redirect, component: OSRedirect, getTitle: () => localize('Redirect') },
     { path: routes.redirect, component: Redirect, getTitle: () => localize('Redirect') },

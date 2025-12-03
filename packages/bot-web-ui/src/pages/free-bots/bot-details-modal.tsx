@@ -17,11 +17,10 @@ const BotDetailsModal = ({ is_open, toggleModal, bot, onLoad }: TBotDetailsModal
         <Modal is_open={is_open} toggleModal={toggleModal} title={bot.name} width="600px">
             <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 
-                {/* Optional YouTube Embed */}
                 {bot.youtubeVideoId && (
                     <div style={{ 
                         position: 'relative', 
-                        paddingBottom: '56.25%', // 16:9 Aspect Ratio 
+                        paddingBottom: '56.25%', 
                         height: 0, 
                         overflow: 'hidden',
                         borderRadius: '8px',
@@ -38,7 +37,6 @@ const BotDetailsModal = ({ is_open, toggleModal, bot, onLoad }: TBotDetailsModal
                     </div>
                 )}
 
-                {/* Description */}
                 <div>
                     <Text as="h4" weight="bold" size="xs" color="prominent" style={{ marginBottom: '8px' }}>
                         <Localize i18n_default_text="Strategy Details" />
@@ -48,7 +46,7 @@ const BotDetailsModal = ({ is_open, toggleModal, bot, onLoad }: TBotDetailsModal
                     </Text>
                 </div>
 
-                {/* Action Bar */}
+                {/* FIXED BUTTONS */}
                 <div style={{ 
                     display: 'flex', 
                     justifyContent: 'flex-end', 
@@ -56,16 +54,20 @@ const BotDetailsModal = ({ is_open, toggleModal, bot, onLoad }: TBotDetailsModal
                     borderTop: '1px solid var(--border-normal)',
                     paddingTop: '16px'
                 }}>
-                    <Button has_effect text={<Localize i18n_default_text="Close" />} onClick={toggleModal} secondary />
+                    <Button has_effect onClick={toggleModal} secondary>
+                        <Localize i18n_default_text="Close" />
+                    </Button>
+                    
                     <Button 
                         has_effect 
-                        text={<Localize i18n_default_text="Load This Bot" />} 
                         onClick={() => {
                             onLoad(bot);
                             toggleModal();
                         }} 
                         primary 
-                    />
+                    >
+                        <Localize i18n_default_text="Load This Bot" />
+                    </Button>
                 </div>
             </div>
         </Modal>
