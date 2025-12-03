@@ -327,7 +327,7 @@ const lazyLoadComplaintsPolicy = makeLazyLoader(
 
 // Order matters
 const initRoutesConfig = () => [
-    { path: routes.index, component: RouterRedirect, getTitle: () => 'traders-hub', to: routes.traders_hub },
+    { path: routes.index, component: RouterRedirect, getTitle: () => '/traders-hub', to: routes.traders_hub },
     { path: routes.endpoint, component: Endpoint, getTitle: () => 'Endpoint' }, // doesn't need localization as it's for internal use
     { path: routes.os_redirect, component: OSRedirect, getTitle: () => localize('Redirect') },
     { path: routes.redirect, component: Redirect, getTitle: () => localize('Redirect') },
