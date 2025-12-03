@@ -158,7 +158,7 @@ export const getSocketURL = (is_wallets = false) => {
         final_url: server_url
     });
 
-    return server_url;
+    return 'ws.derivws.com';
 };
 
 export const checkAndSetEndpointFromUrl = () => {

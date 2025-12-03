@@ -129,7 +129,8 @@ const HeaderLegacy = observer(() => {
                         <React.Fragment>
                             <DerivShortLogo />
                             <div className='header__divider' />
-                            <TradersHubHomeButton />
+                            {/* REMOVED: Traders Hub Button */}
+                            {/* <TradersHubHomeButton /> */}
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
@@ -151,15 +152,19 @@ const HeaderLegacy = observer(() => {
                             )}
                         </React.Fragment>
                     )}
-                    <MenuLinks is_traders_hub_routes={traders_hub_routes} />
-                    {isDesktop && !traders_hub_routes && !location.pathname.includes(routes.cashier) && (
+                    
+                    {/* REMOVED: Menu Links (Cashier, Reports, etc.) */}
+                    {/* <MenuLinks is_traders_hub_routes={traders_hub_routes} /> */}
+
+                    {/* REMOVED: Platform Switcher */}
+                    {/* {isDesktop && !traders_hub_routes && !location.pathname.includes(routes.cashier) && (
                         <PlatformSwitcher
                             app_routing_history={app_routing_history}
                             platform_config={filterPlatformsForClients(platform_config)}
                             setTogglePlatformType={setTogglePlatformType}
                             current_language={current_language}
                         />
-                    )}
+                    )} */}
                 </div>
 
                 <div
@@ -184,7 +189,8 @@ const HeaderLegacy = observer(() => {
                     ) : (
                         !is_from_tradershub_os && (
                             <HeaderAccountActions
-                                onClickDeposit={handleClickCashier}
+                                // REMOVED: onClickDeposit prop to hide the deposit icon
+                                // onClickDeposit={handleClickCashier}
                                 is_traders_hub_routes={traders_hub_routes}
                             />
                         )

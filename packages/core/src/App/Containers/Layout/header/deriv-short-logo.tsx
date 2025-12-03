@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Icon, Modal, Text, StaticUrl } from '@deriv/components';
 import { Localize } from '@deriv/translations';
 import DerivBrandShortLogo from 'Assets/SvgComponents/header/site-logo.svg';
@@ -90,6 +90,26 @@ const DerivShortLogo = () => {
     const [is_modal_open, setIsModalOpen] = useState(false);
     const toggleModal = () => setIsModalOpen(!is_modal_open);
 
+    // State management for Mobile View (Responsive Check)
+    const [is_mobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        // Function to check window width
+        const checkMobile = () => {
+            // 768px is a standard breakpoint for tablets/mobile
+            setIsMobile(window.innerWidth < 768); 
+        };
+
+        // Initial check
+        checkMobile();
+
+        // Add event listener to handle window resizing
+        window.addEventListener('resize', checkMobile);
+
+        // Cleanup listener on component unmount
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     return (
         <div className='header__menu-left-logo' style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             
@@ -104,7 +124,7 @@ const DerivShortLogo = () => {
                     gap: '8px' 
                 }}
             >
-                {/* Logo Wrapper */}
+                {/* Logo Wrapper - Always Visible */}
                 <span style={{ display: 'flex', color: 'var(--brand-red-coral)' }}>
                     <DerivBrandShortLogo 
                         style={{ 
@@ -115,19 +135,21 @@ const DerivShortLogo = () => {
                     />
                 </span>
                 
-                {/* MrCharlohFX Text */}
-                <span style={{ 
-                    color: 'var(--brand-red-coral)', 
-                    fontWeight: 'bold', 
-                    fontSize: '1.6rem',
-                    lineHeight: '1.2',
-                    whiteSpace: 'nowrap'
-                }}>
-                    MrCharlohFX
-                </span>
+                {/* MrCharlohFX Text - HIDDEN ON MOBILE (screen width < 768px) */}
+                {!is_mobile && (
+                    <span style={{ 
+                        color: 'var(--brand-red-coral)', 
+                        fontWeight: 'bold', 
+                        fontSize: '1.6rem',
+                        lineHeight: '1.2',
+                        whiteSpace: 'nowrap'
+                    }}>
+                        MrCharlohFX
+                    </span>
+                )}
             </StaticUrl>
 
-            {/* MESSAGE ICON TRIGGER */}
+            {/* MESSAGE ICON TRIGGER - Always Visible */}
             <div 
                 onClick={toggleModal}
                 style={{ 
