@@ -66,17 +66,18 @@ const RiskDisclaimerModal = ({ is_open, toggleModal }) => (
         </div>
     </Modal>
 );
+// Add PropTypes for the Modal component for better development practices
+RiskDisclaimerModal.propTypes = {
+    is_open: PropTypes.bool,
+    toggleModal: PropTypes.func,
+};
 
 // ----------------------------------------------------------------------
 // 2. RISK DISCLAIMER TRIGGER COMPONENT
 // ----------------------------------------------------------------------
 
-type TRiskDisclaimerProps = {
-    showPopover: boolean;
-    toggleModal: () => void;
-};
-
-const RiskDisclaimer = ({ showPopover, toggleModal }: TRiskDisclaimerProps) => {
+// Removed the TypeScript type definition (TRiskDisclaimerProps)
+const RiskDisclaimer = ({ showPopover, toggleModal }) => {
     const icon = (
         <div onClick={toggleModal} style={{ cursor: 'pointer' }}>
             {/* Assuming IcWarning is a defined Icon component */}
@@ -90,6 +91,12 @@ const RiskDisclaimer = ({ showPopover, toggleModal }: TRiskDisclaimerProps) => {
     ) : (
         icon
     );
+};
+
+// Add PropTypes for the Trigger component
+RiskDisclaimer.propTypes = {
+    showPopover: PropTypes.bool,
+    toggleModal: PropTypes.func,
 };
 
 
@@ -107,7 +114,7 @@ const FooterExtensionRenderer = (footer_extension, idx) => {
 };
 
 // ----------------------------------------------------------------------
-// 3. TradingHubFooter (Modified for Left Placement)
+// 3. TradingHubFooter
 // ----------------------------------------------------------------------
 
 const TradingHubFooter = observer(() => {
@@ -165,7 +172,7 @@ const TradingHubFooter = observer(() => {
                     'footer--is-disabled': is_app_disabled || is_route_modal_on,
                 })}
             >
-                {/* MODIFIED: Risk Disclaimer is placed on the left side */}
+                {/* Risk Disclaimer is placed on the left side */}
                 <div className='footer__links footer__links--left'>
                     {/* NEW: Risk Disclaimer Trigger */}
                     <RiskDisclaimer showPopover={showPopover} toggleModal={toggleRiskDisclaimerModal} />
@@ -180,7 +187,7 @@ const TradingHubFooter = observer(() => {
                 <ServerTime />
                 <FooterIconSeparator />
                 
-                {/* Right side links (UNCHANGED, except for removal of the old disclaimer placement) */}
+                {/* Right side links */}
                 <div className='footer__links'>
                     {footer_extensions_right.map(FooterExtensionRenderer)}
                     {cs_chat_whatsapp && <WhatsApp showPopover={showPopover} />}
@@ -236,6 +243,7 @@ const TradingHubFooter = observer(() => {
 
 TradingHubFooter.propTypes = {
     location: PropTypes.object,
+    // Add other required prop-types here if TradingHubFooter receives any
 };
 
 export default withRouter(TradingHubFooter);
