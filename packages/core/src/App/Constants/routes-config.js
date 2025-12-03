@@ -342,6 +342,8 @@ const initRoutesConfig = () => [
     ...getModules(),
 ];
 
+let routesConfig;
+
 // For default page route if page/path is not found
 const route_default = { component: Page404, getTitle: () => localize('Error 404') };
 
