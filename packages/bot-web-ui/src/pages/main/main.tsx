@@ -192,7 +192,7 @@ const AppWrapper = observer(() => {
                         </div>
                         {/* TRADING VIEW TAB */}
                         <div
-                            icon='IcCharts' // Or IcTradingViewChart
+                            icon='IcTradingViewChart' // Or IcTradingViewChart
                             label={<Localize i18n_default_text='TradingView' />}
                             id='id-trading-view'
                         >
