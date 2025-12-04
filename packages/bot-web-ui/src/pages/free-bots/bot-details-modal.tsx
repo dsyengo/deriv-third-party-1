@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, Text } from '@deriv/components';
+import { Modal, Button, Text, Icon } from '@deriv/components';
 import { Localize } from '@deriv/translations';
 import { TFreeBot } from 'Constants/free-bots-config';
 
@@ -17,36 +17,50 @@ const BotDetailsModal = ({ is_open, toggleModal, bot, onLoad }: TBotDetailsModal
         <Modal is_open={is_open} toggleModal={toggleModal} title={bot.name} width="600px">
             <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 
-                {bot.youtubeVideoId && (
-                    <div style={{ 
-                        position: 'relative', 
-                        paddingBottom: '56.25%', 
-                        height: 0, 
-                        overflow: 'hidden',
-                        borderRadius: '8px',
-                        backgroundColor: 'var(--general-section-1)'
-                    }}>
-                        <iframe 
-                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                            src={`https://www.youtube.com/embed/${bot.youtubeVideoId}`}
-                            title="YouTube video player" 
-                            frameBorder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowFullScreen
-                        ></iframe>
-                    </div>
-                )}
-
+                {/* 1. KEY FEATURES LIST (Using the new 'features' field) */}
                 <div>
-                    <Text as="h4" weight="bold" size="xs" color="prominent" style={{ marginBottom: '8px' }}>
-                        <Localize i18n_default_text="Strategy Details" />
+                    <Text as="h4" weight="bold" size="s" color="prominent" style={{ marginBottom: '10px' }}>
+                        <Localize i18n_default_text="Key Bot Features:" />
                     </Text>
-                    <Text as="p" size="xs" lineHeight="m" align="justify" color="general">
-                        {bot.details}
-                    </Text>
+                    <ul style={{ paddingLeft: '0', margin: 0, listStyleType: 'none' }}>
+                        {bot.features.map((feature, index) => (
+                            <li key={index} style={{ display: 'flex', alignItems: 'flex-start', marginBottom: '8px' }}>
+                                <Icon icon="IcCheckmarkCircle" size={16} color="var(--status-success)" style={{ marginRight: '8px', marginTop: '2px', flexShrink: 0 }} />
+                                <Text size="xs" color="general">{feature}</Text>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
 
-                {/* FIXED BUTTONS */}
+                {/* 2. OPERATIONAL WARNING (Based on content that was in 'details') */}
+                <div style={{ 
+                    padding: '12px', 
+                    borderRadius: '8px', 
+                    backgroundColor: 'var(--status-warning-transparent)', 
+                    border: '1px solid var(--status-warning)' 
+                }}>
+                     <Text as="p" size="xs" weight="bold" color="var(--status-warning-dark)">
+                        <Localize i18n_default_text="❗ ACTION REQUIRED: This bot requires manual market analysis to find the optimal entry point." />
+                    </Text>
+                </div>
+                
+                {/* 3. TUTORIAL LINK (Optional) */}
+                {bot.youtubeVideoId && (
+                    <a 
+                        href={`https://www.youtube.com/watch?v=${bot.youtubeVideoId}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'var(--brand-blue)' }}
+                    >
+                        <Icon icon="IcPlayOutline" size={18} color="var(--brand-blue)" />
+                        <Text size="xs" weight="bold">
+                            <Localize i18n_default_text="Watch Full Tutorial Video" />
+                        </Text>
+                    </a>
+                )}
+
+
+                {/* Action Bar */}
                 <div style={{ 
                     display: 'flex', 
                     justifyContent: 'flex-end', 
@@ -54,20 +68,16 @@ const BotDetailsModal = ({ is_open, toggleModal, bot, onLoad }: TBotDetailsModal
                     borderTop: '1px solid var(--border-normal)',
                     paddingTop: '16px'
                 }}>
-                    <Button has_effect onClick={toggleModal} secondary>
-                        <Localize i18n_default_text="Close" />
-                    </Button>
-                    
+                    <Button has_effect text={<Localize i18n_default_text="Close" />} onClick={toggleModal} secondary />
                     <Button 
                         has_effect 
+                        text={<Localize i18n_default_text="Load This Bot" />} 
                         onClick={() => {
                             onLoad(bot);
                             toggleModal();
                         }} 
                         primary 
-                    >
-                        <Localize i18n_default_text="Load This Bot" />
-                    </Button>
+                    />
                 </div>
             </div>
         </Modal>

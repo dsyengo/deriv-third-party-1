@@ -43,7 +43,7 @@ const AppWrapper = observer(() => {
     const { ui } = useStore();
     const { url_hashed_values, is_desktop } = ui;
 
-    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'free_bots'];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'free_bots', 'trading_view'];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {
@@ -211,7 +211,7 @@ const AppWrapper = observer(() => {
             {is_desktop ? (
                 <>
                     <div className='main__run-strategy-wrapper'>
-                        {active_tab !== DBOT_TABS.FREE_BOTS && active_tab !== DBOT_TABS.TRADING_VIEW && (
+                        {active_tab !== DBOT_TABS.TUTORIAL && active_tab !== DBOT_TABS.FREE_BOTS && active_tab !== DBOT_TABS.TRADING_VIEW && (
                             <>
                                 <RunStrategy />
                                 <RunPanel />
