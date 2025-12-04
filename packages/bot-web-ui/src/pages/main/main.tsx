@@ -164,11 +164,13 @@ const AppWrapper = observer(() => {
                         >
                             <Dashboard handleTabChange={handleTabChange} />
                         </div>
+                        {/* BOTBUILDER */}
                         <div
                             icon='IcBotBuilderTabIcon'
                             label={<Localize i18n_default_text='Bot Builder' />}
                             id='id-bot-builder'
                         />
+                        {/* CHARTS */}
                         <div
                             icon='IcChartsTabDbot'
                             label={<Localize i18n_default_text='Charts' />}
@@ -180,6 +182,22 @@ const AppWrapper = observer(() => {
                         >
                             <Chart show_digits_stats={false} />
                         </div>
+                        {/* FREE-BOTS */}
+                         <div
+                            icon='IcBotBuilderTabIcon' 
+                            label={<Localize i18n_default_text='Free Bots' />}
+                            id='id-free-bots'
+                        >
+                            {/* <FreeBots />  */}
+                        </div>
+                        {/* TRADING VIEW */}
+                        <div
+                            icon='IcTradingViewChart'
+                            label={<Localize i18n_default_text='TradingView' />}
+                            id='id-trading-view'
+                        >
+                            {/* <TradingViewModal /> */}
+                        </div>
                         {/* <div
                             icon='IcTutorialsTabs'
                             label={<Localize i18n_default_text='Tutorials' />}
@@ -189,20 +207,7 @@ const AppWrapper = observer(() => {
                                 <Tutorial handleTabChange={handleTabChange} />
                             </div>
                         </div> */}
-                        <div
-                            icon='IcBotBuilderTabIcon' 
-                            label={<Localize i18n_default_text='Free Bots' />}
-                            id='id-free-bots'
-                        >
-                            <FreeBots /> 
-                        </div>
-                        <div
-                            icon='IcTradingViewChart'
-                            label={<Localize i18n_default_text='TradingView' />}
-                            id='id-trading-view'
-                        >
-                            <TradingViewModal />
-                        </div>
+                       
 
                         {/* END OF TABS */}
                     </Tabs>
