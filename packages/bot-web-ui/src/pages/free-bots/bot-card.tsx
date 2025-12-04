@@ -42,6 +42,7 @@ const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
                     secondary 
                     has_effect 
                     onClick={() => onView(bot)}
+                    type="button"
                 >
                     <Localize i18n_default_text="Details" />
                 </Button>
@@ -50,6 +51,7 @@ const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
                     primary 
                     has_effect 
                     onClick={() => onLoad(bot)}
+                    type="button" 
                 >
                     <Localize i18n_default_text="Load Bot" />
                 </Button>

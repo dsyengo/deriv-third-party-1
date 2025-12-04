@@ -68,7 +68,7 @@ const BotDetailsModal = ({ is_open, toggleModal, bot, onLoad }: TBotDetailsModal
                     borderTop: '1px solid var(--border-normal)',
                     paddingTop: '16px'
                 }}>
-                    <Button has_effect text={<Localize i18n_default_text="Close" />} onClick={toggleModal} secondary />
+                    <Button has_effect text={<Localize i18n_default_text="Close" />} onClick={toggleModal} secondary type="button"  />
                     <Button 
                         has_effect 
                         text={<Localize i18n_default_text="Load This Bot" />} 
@@ -77,6 +77,7 @@ const BotDetailsModal = ({ is_open, toggleModal, bot, onLoad }: TBotDetailsModal
                             toggleModal();
                         }} 
                         primary 
+                        type="button" 
                     />
                 </div>
             </div>

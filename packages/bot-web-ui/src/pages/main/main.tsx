@@ -17,7 +17,7 @@ import Dashboard from '../dashboard';
 import RunStrategy from '../dashboard/run-strategy';
 // import Tutorial from '../tutorials';
 import FreeBots from '../free-bots';
-import TradingViewPage from '../trading-view';
+// import TradingViewPage from '../trading-view';
 import { tour_list } from '../tutorials/dbot-tours/utils';
 
 const AppWrapper = observer(() => {
@@ -201,7 +201,7 @@ const AppWrapper = observer(() => {
                             label={<Localize i18n_default_text='TradingView' />}
                             id='id-trading-view'
                         >
-                            <TradingViewPage />
+                            <TradingViewModal />
                         </div>
 
                         {/* END OF TABS */}
