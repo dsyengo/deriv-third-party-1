@@ -94,6 +94,11 @@ const rules = (is_test_env = false) => [
         use: file_loaders,
     },
     {
+        test: /\.xml$/,
+        exclude: /node_modules/,
+        type: 'asset/source', // This tells Webpack: "Read the file content and give it to me as a string"
+    },
+    {
         test: /\.svg$/,
         exclude: /node_modules/,
         include: /public\//,
@@ -106,25 +111,25 @@ const rules = (is_test_env = false) => [
     },
     is_test_env
         ? {
-              test: /\.(sc|sa|c)ss$/,
-              loaders: 'null-loader',
-          }
+            test: /\.(sc|sa|c)ss$/,
+            loaders: 'null-loader',
+        }
         : {
-              test: /\.(sc|sa|c)ss$/,
-              use: css_loaders,
-          },
+            test: /\.(sc|sa|c)ss$/,
+            use: css_loaders,
+        },
 ];
 
 const MINIMIZERS = !IS_RELEASE
     ? []
     : [
-          new TerserPlugin({
-              test: /\.js$/,
-              exclude: /(smartcharts)/,
-              parallel: 2,
-          }),
-          new CssMinimizerPlugin(),
-      ];
+        new TerserPlugin({
+            test: /\.js$/,
+            exclude: /(smartcharts)/,
+            parallel: 2,
+        }),
+        new CssMinimizerPlugin(),
+    ];
 
 const plugins = ({ base, is_test_env }) => {
     return [
@@ -160,9 +165,9 @@ const plugins = ({ base, is_test_env }) => {
         ...(is_test_env
             ? [new StylelintPlugin(stylelintConfig())]
             : [
-                  new GenerateSW(generateSWConfig(IS_RELEASE)),
-                  // ...(!IS_RELEASE ? [new BundleAnalyzerPlugin({ analyzerMode: 'static' })] : []),
-              ]),
+                new GenerateSW(generateSWConfig(IS_RELEASE)),
+                // ...(!IS_RELEASE ? [new BundleAnalyzerPlugin({ analyzerMode: 'static' })] : []),
+            ]),
     ];
 };
 

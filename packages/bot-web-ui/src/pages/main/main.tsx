@@ -208,6 +208,10 @@ const AppWrapper = observer(() => {
                                 </div>
                             )}
                         </div>
+                        {/* MANUAL TRADER */}
+                        {/* ANALYSIS TOOL */}
+                        {/* STRATEGIES */}
+                        {/* COPY TRADING */}
                         {/* TUTORIALS */}
                         {/* <div
                             icon='IcTutorialsTabs'
