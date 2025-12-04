@@ -21,12 +21,13 @@ const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
                         {bot.name}
                     </div>
                     <div className="bot-card__rating">
+                        {/* Using theme variables for star colors */}
                         {[...Array(5)].map((_, i) => (
                             <Icon 
                                 key={i} 
                                 icon="IcStar" 
                                 size={12} 
-                                color={i < Math.floor(bot.rating) ? "orange" : "disabled"} 
+                                color={i < Math.floor(bot.rating) ? "var(--brand-orange)" : "var(--text-disabled)"} 
                             />
                         ))}
                     </div>
@@ -38,6 +39,7 @@ const BotCard = ({ bot, onView, onLoad }: TBotCardProps) => {
             </div>
 
             <div className="bot-card__actions">
+                {/* FIX: Localize moved from 'text' prop to children to prevent crash */}
                 <Button 
                     secondary 
                     has_effect 
