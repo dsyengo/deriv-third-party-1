@@ -106,11 +106,16 @@ const HeaderLegacy = observer(() => {
 
     const isExcludedRoute = excludedRoutes.some(route => window.location.pathname.includes(route));
 
-    if (
-        (!is_client_store_initialized && !isExcludedRoute) ||
-        (has_wallet && !isHubRedirectionLoaded && !isExcludedRoute) ||
-        (has_wallet && isHubRedirectionLoaded && !isExcludedRoute && isHubRedirectionEnabled)
-    ) {
+        // if (
+        //     (!is_client_store_initialized && !isExcludedRoute) ||
+        //     (has_wallet && !isHubRedirectionLoaded && !isExcludedRoute) ||
+        //     (has_wallet && isHubRedirectionLoaded && !isExcludedRoute && isHubRedirectionEnabled)
+        // ) {
+        //     return null;
+        // }
+    // We only hide the header if the store isn't ready OR if we are on a specific excluded route (like 404).
+    // We REMOVED the 'has_wallet' checks so it always renders for wallet users.
+    if (!is_client_store_initialized && !isExcludedRoute) {
         return null;
     }
 

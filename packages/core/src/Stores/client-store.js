@@ -1086,10 +1086,16 @@ export default class ClientStore extends BaseStore {
         return this.website_status?.clients_country;
     }
 
+    // get is_eu_country() {
+    //     const country = this.website_status.clients_country;
+    //     if (country) return isEuCountry(country);
+    //     return false;
+    // }
     get is_eu_country() {
-        const country = this.website_status.clients_country;
-        if (country) return isEuCountry(country);
-        return false;
+        // FIX: Check if response exists first. If not, assume False (Not EU).
+        if (!this.landing_company_response) return false;
+
+        return this.landing_company_response.clients_country === 'eu' || this.landing_company_response.clients_country === 'gb';
     }
 
     get is_options_blocked() {
