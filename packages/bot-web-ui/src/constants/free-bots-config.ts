@@ -16,7 +16,7 @@ export const FREE_BOTS_LIST: TFreeBot[] = [
     name: localize('Alpha Ai  Two Predictions, Under 9 under 5 recovery'),
     description: localize('A dual-prediction volatility strategy designed to recover efficiently using under-9 and under-5 cycles.'),
     rating: 4.5,
-    xmlPath: '/free-bots/alpha-ai-two-predictions.xml',
+    xmlPath: '/alpha-ai-two-predictions.xml',
         youtubeVideoId: '', // Optional
     features: [
             localize('Trades Under 9 initially with a fixed stake 💰'),
@@ -31,7 +31,7 @@ export const FREE_BOTS_LIST: TFreeBot[] = [
     name: localize('MR CHARLOH FX EVEN_ODD V1 BOT💹✅'),
     description: localize('An even–odd pattern analyzer designed to exploit sequence imbalances in market ticks.'),
        rating: 4.6,
-    xmlPath: '/free-bots/mr-charloh-fx-even-odd-v1.xml',
+    xmlPath: '/mr-charloh-fx-even-odd-v1.xml',
         youtubeVideoId: '', // Optional
     features: [
 localize('Trades Even/Odd markets after market analysis 🔍'),
@@ -47,7 +47,7 @@ localize('Easy-to-use for both beginners and advanced traders 🛠️'),
     name: localize('MR CHARLOHFX MATCHES BOT💹✅'),
     description: localize('A pattern-matching strategy that scans for repeatable market sequences to trigger precise entries.'),
        rating: 4.6,
-    xmlPath: '/free-bots/mr-charlohfx-matches.xml',
+    xmlPath: '/mr-charlohfx-matches.xml',
         youtubeVideoId: '', // Optional
     features: [
 localize('Designed for Digit Match and Deriv digit markets 🧮'),
@@ -62,7 +62,7 @@ localize('Perfect for traders who want full control over their strategies 🛠�
     name: localize('Over Auto Switch Killer Bot  💀⚡'),
     description: localize('An adaptive over/under strategy that auto-switches modes based on real-time volatility signals.'),
        rating: 4.7,
-    xmlPath: '/free-bots/over-auto-switch-killer.xml',
+    xmlPath: '/over-auto-switch-killer.xml',
         youtubeVideoId: '', // Optional
     features: [
 localize('Auto-switches between Over 0, Over 1, Over 2, Over 3, and back to Over 1 🔄'),
@@ -78,7 +78,7 @@ localize('Automated cycle to reach your target profit with smart strategy 📈')
     name: localize('Profitmax Digits Killer Bot🤖💵'),
     description: localize('A digits-focused strategy engineered to exploit number frequency imbalances for consistent profit extraction.'),
         rating: 4.7,
-    xmlPath: '/free-bots/profitmax-digits-killer.xml',
+    xmlPath: '/profitmax-digits-killer.xml',
         youtubeVideoId: '', // Optional
    features: [
 localize('Trades Even/Odd, Over/Under, and Digit Match strategies 🔢'),
@@ -93,7 +93,7 @@ localize('Designed to help you maximize profits with intelligent trading ⚡'),
     name: localize('Rise_fall Bot🤖'),
     description: localize('A trend-sensing strategy designed to detect short-term upward and downward momentum shifts.'),
        rating: 4.5,
-    xmlPath: '/free-bots/rise-fall.xml',
+    xmlPath: '/rise-fall.xml',
         youtubeVideoId: '', // Optional
     features: [
 localize('Trades Rise and Fall markets with manual martingale adjustments 🔄'),
@@ -108,7 +108,7 @@ localize('Ideal for traders who want manual control with automated entries ⚙�
     description: localize('A dual-layer recovery strategy focusing on under-8 and under-6 cycles to optimize trade recovery.'),
     
     rating: 4.6,
-    xmlPath: '/free-bots/under-8-under-6-recovery.xml',
+    xmlPath: '/under-8-under-6-recovery.xml',
         youtubeVideoId: '', // Optional
    features: [
 localize('Trades Under 8 initially, switches to Under 6 for recovery 🔄'),
@@ -122,7 +122,7 @@ localize('Ideal for traders who prefer manual control with automated market swit
     name: localize('VolatilityViper Bot📈🤖📉'),
     description: localize('A high-precision volatility trading bot designed to capitalize on sudden market spikes.'),
         rating: 4.7,
-    xmlPath: '/free-bots/volatilityviper.xml',
+    xmlPath: '/volatilityviper.xml',
         youtubeVideoId: '', // Optional
     features: [
 localize('Trades all markets except for accumulators 🔄'),
