@@ -82,8 +82,8 @@ module.exports = function (env) {
             // Add this configuration to force copying the folder
             copy_patterns: [
                 {
-                    from: path.resolve(__dirname, '../src/public/free-bots'),
-                    to: 'free-bots', // This creates a 'free-bots' folder in the dist output
+                    from: path.resolve(__dirname, '../src/public/*.xml'), // Grab all XML files
+                    to: '[name][ext]', // Put them in the root of dist
                 },
             ]
         }),
