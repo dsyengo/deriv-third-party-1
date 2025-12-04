@@ -85,6 +85,7 @@ module.exports = function (env) {
                     from: path.resolve(__dirname, '../src/public/free-bots'),
                     to: 'free-bots', // This creates a 'free-bots' folder in the dist output
                 },
+            ]
         }),
         snapshot: {
             managedPaths: [],
