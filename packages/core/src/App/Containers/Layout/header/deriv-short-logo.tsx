@@ -51,7 +51,7 @@ const ContactUsModal = ({ is_open, toggleModal }: TContactUsModalProps) => {
             // MODAL TITLE: Using Icon as requested
             title={
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Icon icon="IcLiveChat" size={24} color="var(--text-prominent)" />
+                    <Icon icon="IcLiveChat" size={24} color="var(--brand-red-coral)" />
                     <Text weight="bold" size="s" color="prominent">
                         <Localize i18n_default_text="Contact Us" />
                     </Text>
@@ -65,10 +65,10 @@ const ContactUsModal = ({ is_open, toggleModal }: TContactUsModalProps) => {
                 </Text>
 
                 {/* Social Links */}
-                <SocialLink icon="IcWhatsapp" text="WhatsApp" href="https://wa.me/254700000000" />
+                <SocialLink icon="IcWhatsappFilled" text="WhatsApp" href="https://wa.me/254700000000" />
                 <SocialLink icon="IcTelegram" text="Telegram" href="https://t.me/MrCharlohFX" />
                 <SocialLink icon="IcEmail" text="Email Support" href="mailto:support@mrcharlohfx.site" />
-                <SocialLink icon="IcTwitter" text="Twitter / X" href="https://twitter.com/MrCharlohFX" />
+                <SocialLink icon="IcX" text="Twitter / X" href="https://twitter.com/MrCharlohFX" />
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
                     {/* FIX: Pass Localize as children, NOT as text prop */}

@@ -79,6 +79,16 @@ module.exports = function (env) {
             base,
             is_test_env: false,
             env,
+            // --- ADD COPY PATTERN ---
+            copy_patterns: [
+                {
+                    // Source: Read from core's src/public/free-bots/
+                    from: path.resolve(__dirname, '../src/public/free-bots/'),
+                    // Destination: Write to core's dist/free-bots/
+                    to: path.resolve(__dirname, '../dist/free-bots/'),
+                },
+            ],
+            // ------------------------
         }),
         snapshot: {
             managedPaths: [],

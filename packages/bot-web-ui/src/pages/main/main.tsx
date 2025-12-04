@@ -190,14 +190,14 @@ const AppWrapper = observer(() => {
                             </div>
                         </div> */}
                         <div
-                            icon='IcAppStore' 
+                            icon='IcBotBuilderTabIcon' 
                             label={<Localize i18n_default_text='Free Bots' />}
                             id='id-free-bots'
                         >
                             <FreeBots /> 
                         </div>
                         <div
-                            icon='IcCharts'
+                            icon='IcTradingViewChart'
                             label={<Localize i18n_default_text='TradingView' />}
                             id='id-trading-view'
                         >
@@ -211,7 +211,7 @@ const AppWrapper = observer(() => {
             {is_desktop ? (
                 <>
                     <div className='main__run-strategy-wrapper'>
-                        {active_tab !== active_tab !== DBOT_TABS.FREE_BOTS && active_tab !== DBOT_TABS.TRADING_VIEW && (
+                        {active_tab !== DBOT_TABS.FREE_BOTS && active_tab !== DBOT_TABS.TRADING_VIEW && (
                             <>
                                 <RunStrategy />
                                 <RunPanel />
