@@ -8,6 +8,9 @@ import { updateWorkspaceName } from '@deriv/bot-skeleton';
 export const loadBotFromUrl = async (url: string, botName?: string) => {
     try {
         // 1. Fetch the XML file content
+
+        console.log(`Bot url is ${url}`)
+        console.log(`Bot name is ${botName}`)
         const response = await fetch(url);
         
         // Handle 404 specifically so you know if the file path is wrong

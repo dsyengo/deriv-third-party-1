@@ -4,7 +4,7 @@ const TradingViewComponent = () => {
     return (
         <iframe
             id='trading-view-iframe'
-            style={{ width: '100%', height: '100%', backgroundColor: 'white' }}
+            style={{ width: '100%', height: '100%',border: 'none', backgroundColor: 'var(--general-main-1)' }}
             src='https://charts.deriv.com/deriv?hide-signup=true'
         />
     );

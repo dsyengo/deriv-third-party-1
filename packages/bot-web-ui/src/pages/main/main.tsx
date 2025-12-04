@@ -17,7 +17,7 @@ import Dashboard from '../dashboard';
 import RunStrategy from '../dashboard/run-strategy';
 // import Tutorial from '../tutorials';
 import FreeBots from '../free-bots';
-// import TradingViewPage from '../trading-view';
+import TradingViewComponent from 'Components/trading-view-chart/trading-view';
 import { tour_list } from '../tutorials/dbot-tours/utils';
 
 const AppWrapper = observer(() => {
@@ -188,20 +188,27 @@ const AppWrapper = observer(() => {
                             label={<Localize i18n_default_text='Free Bots' />}
                             id='id-free-bots'
                         >
-                            <FreeBots /> 
+                            {active_tab === DBOT_TABS.FREE_BOTS && <FreeBots />}
                         </div>
-                        {/* TRADING VIEW */}
+                        {/* TRADING VIEW TAB */}
                         <div
-                            icon='IcTradingViewChart'
+                            icon='IcCharts' // Or IcTradingViewChart
                             label={<Localize i18n_default_text='TradingView' />}
-                            id={
-                                is_chart_modal_visible || is_trading_view_modal_visible
-                                    ? 'id-trading-view--disabled' // Prevents clicking if a chart modal is open
-                                    : 'id-trading-view'
-                            }
+                            id='id-trading-view'
                         >
-                            <TradingViewModal />
+                            {/* LAZY LOAD: Only render when tab is active */}
+                            {active_tab === DBOT_TABS.TRADING_VIEW && (
+                                <div style={{ 
+                                    height: 'calc(100vh - 8.4rem)', // Full height minus header
+                                    width: '100%', 
+                                    position: 'relative',
+                                    overflow: 'hidden' 
+                                }}>
+                                    <TradingViewComponent />
+                                </div>
+                            )}
                         </div>
+                        {/* TUTORIALS */}
                         {/* <div
                             icon='IcTutorialsTabs'
                             label={<Localize i18n_default_text='Tutorials' />}
@@ -227,8 +234,10 @@ const AppWrapper = observer(() => {
                             </>
                         )}
                     </div>
-                    <ChartModal />
-                    <TradingViewModal />
+                    {/* Chart Modal (Standard Deriv Chart) */}
+                         {is_chart_modal_visible && <ChartModal />}
+                    {/* FIX: Only render TradingView when the store says it is visible */}
+                        {is_trading_view_modal_visible && <TradingViewModal />}     
                 </>
             ) : (
                 !is_open && active_tab !== 4 && <RunPanel />
