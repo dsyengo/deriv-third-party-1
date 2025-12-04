@@ -43,7 +43,7 @@ const AppWrapper = observer(() => {
     const { ui } = useStore();
     const { url_hashed_values, is_desktop } = ui;
 
-    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'free_bots', 'trading_view'];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'free_bots', 'trading_view', 'tutorial',];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {
@@ -188,15 +188,19 @@ const AppWrapper = observer(() => {
                             label={<Localize i18n_default_text='Free Bots' />}
                             id='id-free-bots'
                         >
-                            {/* <FreeBots />  */}
+                            <FreeBots /> 
                         </div>
                         {/* TRADING VIEW */}
                         <div
                             icon='IcTradingViewChart'
                             label={<Localize i18n_default_text='TradingView' />}
-                            id='id-trading-view'
+                            id={
+                                is_chart_modal_visible || is_trading_view_modal_visible
+                                    ? 'id-trading-view--disabled' // Prevents clicking if a chart modal is open
+                                    : 'id-trading-view'
+                            }
                         >
-                            {/* <TradingViewModal /> */}
+                            <TradingViewModal />
                         </div>
                         {/* <div
                             icon='IcTutorialsTabs'
