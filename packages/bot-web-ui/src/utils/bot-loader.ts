@@ -4,55 +4,50 @@ import { updateWorkspaceName } from '@deriv/bot-skeleton';
 
 /**
  * Fetches an XML strategy file from a URL and loads it into the workspace.
- * Mimics the behavior of the Load Modal > Local File loader.
- * * @param url - The public URL of the XML file
- * @param botName - The name of the bot (to update the UI header)
  */
 export const loadBotFromUrl = async (url: string, botName?: string) => {
     try {
         // 1. Fetch the XML file content
         const response = await fetch(url);
         
+        // Handle 404 specifically so you know if the file path is wrong
+        if (response.status === 404) {
+            throw new Error(localize('Strategy file not found. Please check the configuration path.'));
+        }
+
         if (!response.ok) {
-            throw new Error(`Failed to fetch bot: ${response.status} ${response.statusText}`);
+            throw new Error(`${response.status} ${response.statusText}`);
         }
 
         const xmlText = await response.text();
         
-        // 2. Basic validation to ensure it's a valid XML strategy
+        // 2. Basic validation
         if (!xmlText.includes('<xml') || !xmlText.includes('block')) {
             throw new Error(localize('The file is not a valid XML strategy.'));
         }
 
-        // 3. Safety: Stop the bot if it is currently running
-        // This prevents logic conflicts when swapping strategies
+        // 3. Stop the bot if running (Safety)
         if (dbot.isBotRunning) {
             dbot.terminateBot();
         }
 
-        // 4. Inject into Blockly Workspace
-        // dbot.loadWorkspace handles clearing the old blocks and placing the new ones
+        // 4. Inject blocks
         dbot.loadWorkspace(xmlText);
 
-        // 5. Update the Workspace Name (The "Name" Feature)
-        // This forces the header to display the name of the bot you just loaded
+        // 5. Update Header Name
         if (botName) {
-            // We set the name in the scratch workspace logic
-            const workspace = window.Blockly.derivWorkspace;
+            const workspace = window.Blockly?.derivWorkspace;
             if (workspace) {
-                // This is how Deriv stores the filename internally for the UI
-                workspace.currentStrategyName = botName; 
+                workspace.currentStrategyName = botName;
             }
-            // Trigger the UI update
             updateWorkspaceName();
         }
 
-        // 6. UX Improvement: Zoom to fit
-        // Wait a split second for blocks to render, then center them on screen
+        // 6. Zoom to fit (UX)
         setTimeout(() => {
-            if (window.Blockly && window.Blockly.derivWorkspace) {
-                window.Blockly.derivWorkspace.cleanUp(); // Aligns blocks neatly
-                window.Blockly.derivWorkspace.zoomToFit(); // Centers them
+            if (window.Blockly?.derivWorkspace) {
+                window.Blockly.derivWorkspace.cleanUp();
+                window.Blockly.derivWorkspace.zoomToFit();
             }
         }, 100);
         
@@ -60,9 +55,10 @@ export const loadBotFromUrl = async (url: string, botName?: string) => {
 
     } catch (error) {
         console.error('Error loading bot:', error);
+        // Return a clean error message for the UI
         return { 
             success: false, 
-            error: localize('Failed to load strategy. Please check your internet connection.') 
+            error: error instanceof Error ? error.message : localize('An unknown error occurred.') 
         };
     }
 };

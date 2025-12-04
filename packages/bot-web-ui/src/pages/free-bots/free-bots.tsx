@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text } from '@deriv/components';
-import { Localize, localize } from '@deriv/translations';
+import { Localize } from '@deriv/translations';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@deriv/stores';
 import { DBOT_TABS } from 'Constants/bot-contents';
@@ -9,7 +9,7 @@ import { loadBotFromUrl } from '../../utils/bot-loader';
 import BotCard from './bot-card';
 import BotDetailsModal from './bot-details-modal';
 
-
+import './free-bots.scss'; 
 
 const FreeBots = observer(() => {
     const [selectedBot, setSelectedBot] = useState<TFreeBot | null>(null);
@@ -17,7 +17,6 @@ const FreeBots = observer(() => {
     const [isLoading, setIsLoading] = useState(false);
 
     const rootStore = useStore();
-    // Accessing dashboard store safely
     // @ts-ignore 
     const { dashboard } = rootStore?.modules?.bot || rootStore; 
     const { setActiveTab } = dashboard || {};
@@ -27,25 +26,27 @@ const FreeBots = observer(() => {
         setIsModalOpen(true);
     };
 
+    // --- UPDATED LOAD HANDLER ---
     const handleLoadBot = async (bot: TFreeBot) => {
-        const confirmLoad = window.confirm(
-            localize("Loading this bot will overwrite your current workspace blocks. Are you sure?")
-        );
-        if (!confirmLoad) return;
+        // REMOVED: window.confirm check. 
+        // It now loads immediately.
 
         setIsLoading(true);
 
-        // Pass bot.name to update the workspace title
+        // Load the bot
         const result = await loadBotFromUrl(bot.xmlPath, bot.name);
 
         setIsLoading(false);
 
         if (result.success) {
             setIsModalOpen(false);
+            
+            // AUTO-REDIRECT TO BOT BUILDER
             if (setActiveTab) {
                 setActiveTab(DBOT_TABS.BOT_BUILDER);
             }
         } else {
+            // Show error if load failed (e.g. 404)
             alert(result.error);
         }
     };
