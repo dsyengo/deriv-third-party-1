@@ -123,7 +123,7 @@ const HeaderLegacy = observer(() => {
         <header
             className={classNames('header', {
                 'header--is-disabled': is_app_disabled || is_route_modal_on,
-                'header--is-hidden': platforms[platform] && !is_from_tradershub_os,
+                // 'header--is-hidden': platforms[platform] && !is_from_tradershub_os,
                 'header--tradershub_os_mobile': is_logged_in && is_from_tradershub_os && !isDesktop,
                 'header--tradershub_os_desktop': is_logged_in && is_from_tradershub_os && isDesktop,
             })}
@@ -193,11 +193,10 @@ const HeaderLegacy = observer(() => {
                         </div>
                     ) : (
                         !is_from_tradershub_os && (
-                            <HeaderAccountActions
-                                // REMOVED: onClickDeposit prop to hide the deposit icon
-                                // onClickDeposit={handleClickCashier}
-                                is_traders_hub_routes={traders_hub_routes}
-                            />
+                            // We removed "!is_from_tradershub_os &&" so it ALWAYS renders
+                                <HeaderAccountActions
+                                    is_traders_hub_routes={traders_hub_routes}
+                                />
                         )
                     )}
                 </div>
