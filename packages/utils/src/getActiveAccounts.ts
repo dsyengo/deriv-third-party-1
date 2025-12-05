@@ -14,7 +14,7 @@ type TMBApiReturnedValue = {
     active?: boolean;
 };
 
-const domains = ['deriv.com', 'deriv.dev', 'binary.sx', 'pages.dev', 'localhost', 'deriv.be', 'deriv.me'];
+const domains = ['deriv.com', 'deriv.dev', 'binary.sx', 'pages.dev', 'localhost', 'deriv.be', 'deriv.me', 'www.mrcharlohfx.site'];
 function endChat() {
     window.LC_API?.close_chat?.();
     window.LiveChatWidget?.call('hide');
@@ -57,17 +57,14 @@ const setAccountInSessionStorage = (loginid?: string, isWallet = false) => {
     sessionStorage.setItem(key, loginid);
 };
 
-// UPDATED FUNCTION: Handles CORS errors gracefully
 const getActiveSessions = async () => {
     try {
         const data = await requestSessionActive();
+
         return data;
     } catch (error) {
-        // SILENT FIX:
-        // CORS blocks this request on third-party domains. This is expected.
-        // We return undefined so the app treats it as "Not Logged In" 
-        // and allows the user to log in manually via the button.
-        return undefined;
+        // eslint-disable-next-line no-console
+        console.error('Failed to get active sessions', error);
     }
 };
 
