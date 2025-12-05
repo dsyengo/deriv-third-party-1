@@ -7,7 +7,6 @@ import { platforms, routes } from '@deriv/shared';
 import { observer, useStore } from '@deriv/stores';
 import { useDevice } from '@deriv-com/ui';
 
-import { MenuLinks, PlatformSwitcher } from 'App/Components/Layout/Header';
 import { AccountsInfoLoader } from 'App/Components/Layout/Header/Components/Preloader';
 import ToggleMenuDrawer from 'App/Components/Layout/Header/toggle-menu-drawer.jsx';
 import ToggleMenuDrawerAccountsOS from 'App/Components/Layout/Header/toggle-menu-drawer-accounts-os.jsx';
@@ -19,7 +18,6 @@ import SetAccountCurrencyModal from 'App/Containers/SetAccountCurrencyModal';
 
 import DerivShortLogo from './deriv-short-logo';
 import HeaderAccountActions from './header-account-actions';
-import TradersHubHomeButton from './traders-hub-home-button';
 
 const HeaderLegacy = observer(() => {
     const { client, common, ui, notifications, traders_hub } = useStore();
@@ -37,11 +35,11 @@ const HeaderLegacy = observer(() => {
         is_switching,
         is_client_store_initialized,
     } = client;
-    const { app_routing_history, current_language, platform, is_from_tradershub_os } = common;
+    const { platform, is_from_tradershub_os } = common;
     const { header_extension, is_app_disabled, is_route_modal_on, toggleReadyToDepositModal, is_real_acc_signup_on } =
         ui;
     const { addNotificationMessage, client_notifications, removeNotificationMessage } = notifications;
-    const { setTogglePlatformType, modal_data } = traders_hub;
+    const { modal_data } = traders_hub;
     const { isHubRedirectionEnabled, isHubRedirectionLoaded } = useIsHubRedirectionEnabled();
 
     const { isDesktop } = useDevice();
@@ -106,15 +104,8 @@ const HeaderLegacy = observer(() => {
 
     const isExcludedRoute = excludedRoutes.some(route => window.location.pathname.includes(route));
 
-        // if (
-        //     (!is_client_store_initialized && !isExcludedRoute) ||
-        //     (has_wallet && !isHubRedirectionLoaded && !isExcludedRoute) ||
-        //     (has_wallet && isHubRedirectionLoaded && !isExcludedRoute && isHubRedirectionEnabled)
-        // ) {
-        //     return null;
-        // }
     // We only hide the header if the store isn't ready OR if we are on a specific excluded route (like 404).
-    // We REMOVED the 'has_wallet' checks so it always renders for wallet users.
+    // Removed wallet checks to ensure visibility.
     if (!is_client_store_initialized && !isExcludedRoute) {
         return null;
     }
@@ -123,10 +114,8 @@ const HeaderLegacy = observer(() => {
         <header
             className={classNames('header', {
                 'header--is-disabled': is_app_disabled || is_route_modal_on,
-                'header--is-hidden': platforms[platform],
-                //  && !is_from_tradershub_os,
-                'header--tradershub_os_mobile': is_logged_in && is_from_tradershub_os && !isDesktop,
-                'header--tradershub_os_desktop': is_logged_in && is_from_tradershub_os && isDesktop,
+                // Removing this check ensures CSS doesn't hide it for specific platform combos
+                // 'header--is-hidden': platforms[platform] && !is_from_tradershub_os,
             })}
         >
             <div className='header__menu-items'>
@@ -135,8 +124,6 @@ const HeaderLegacy = observer(() => {
                         <React.Fragment>
                             <DerivShortLogo />
                             <div className='header__divider' />
-                            {/* REMOVED: Traders Hub Button */}
-                            {/* <TradersHubHomeButton /> */}
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
@@ -158,19 +145,6 @@ const HeaderLegacy = observer(() => {
                             )}
                         </React.Fragment>
                     )}
-                    
-                    {/* REMOVED: Menu Links (Cashier, Reports, etc.) */}
-                    {/* <MenuLinks is_traders_hub_routes={traders_hub_routes} /> */}
-
-                    {/* REMOVED: Platform Switcher */}
-                    {/* {isDesktop && !traders_hub_routes && !location.pathname.includes(routes.cashier) && (
-                        <PlatformSwitcher
-                            app_routing_history={app_routing_history}
-                            platform_config={filterPlatformsForClients(platform_config)}
-                            setTogglePlatformType={setTogglePlatformType}
-                            current_language={current_language}
-                        />
-                    )} */}
                 </div>
 
                 <div
@@ -193,12 +167,12 @@ const HeaderLegacy = observer(() => {
                             />
                         </div>
                     ) : (
-                        !is_from_tradershub_os && (
-                            // We removed "!is_from_tradershub_os &&" so it ALWAYS renders
-                                <HeaderAccountActions
-                                    is_traders_hub_routes={traders_hub_routes}
-                                />
-                        )
+                        // FIX: Removed !is_from_tradershub_os check.
+                        // Now HeaderAccountActions renders for ALL users (including Wallets).
+                        <HeaderAccountActions
+                            // Removed onClickDeposit to hide the deposit button as requested previously
+                            is_traders_hub_routes={traders_hub_routes}
+                        />
                     )}
                 </div>
             </div>
