@@ -153,7 +153,7 @@ const DerivShortLogo = () => {
                 )}
             </StaticUrl>
 
-            {/* MESSAGE ICON TRIGGER - Always Visible */}
+           {/* MESSAGE ICON TRIGGER */}
             <div 
                 onClick={toggleModal}
                 style={{ 
@@ -165,11 +165,11 @@ const DerivShortLogo = () => {
                 }}
                 title="Contact Support" 
             >
-                {/* Dark Blue Message Icon (Size 30) */}
+                {/* FIX: Used 'IcLiveChat' (Valid Name) and CSS Variable for Color */}
                 <Icon 
-                    icon='IcMessage' 
+                    icon='IcLiveChat' 
                     size={30} 
-                    color='#101928' 
+                    color='var(--text-prominent)' 
                 />
             </div>
 
