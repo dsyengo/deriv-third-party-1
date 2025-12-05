@@ -66,9 +66,9 @@ const BinarySocketBase = (() => {
         return mock_server_config
             ? JSON.parse(mock_server_config)
             : {
-                  session_id: '',
-                  is_mockserver_enabled: false,
-              };
+                session_id: '',
+                is_mockserver_enabled: false,
+            };
     };
 
     const openNewConnection = (language = getLanguage()) => {
@@ -93,6 +93,12 @@ const BinarySocketBase = (() => {
         deriv_api.onOpen().subscribe(() => {
             config.wsEvent('open');
 
+            // --- FIX START: Request Server Time Immediately ---
+            // This is required to initialize the server_time store and prevent the 'epoch' crash.
+            deriv_api.send({ time: 1 });
+            setInterval(() => deriv_api.send({ time: 1 }), 30000); // Keep connection alive
+            // --- FIX END ---
+
             wait('website_status');
 
             if (client_store.is_logged_in) {
@@ -115,7 +121,13 @@ const BinarySocketBase = (() => {
 
         deriv_api.onMessage().subscribe(({ data: response }) => {
             const msg_type = response.msg_type;
-            State.set(['response', msg_type], cloneObject(response));
+
+            // Handle time response specifically if needed, but State.set usually handles it
+            if (msg_type === 'time') {
+                State.set(['response', 'time'], cloneObject(response));
+            } else {
+                State.set(['response', msg_type], cloneObject(response));
+            }
 
             config.wsEvent('message');
 
