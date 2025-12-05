@@ -106,7 +106,15 @@ const AccountSwitcher = observer(({ history, is_mobile, is_visible }) => {
     const doSwitch = async loginid => {
         closeAccountsDialog();
         if (account_loginid === loginid) return;
+        // 1. Switch the account token in storage
         await switchAccount(loginid);
+        // 2. Automatic Sync (The Fix)
+        // We wait 100ms to ensure storage is saved, then reload the page.
+        // This forces the Bot Engine to restart and connect using the NEW account.
+        setTimeout(() => {
+            window.location.reload();
+        }, 100);
+
     };
 
     const resetBalance = async () => {

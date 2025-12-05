@@ -123,7 +123,8 @@ const HeaderLegacy = observer(() => {
         <header
             className={classNames('header', {
                 'header--is-disabled': is_app_disabled || is_route_modal_on,
-                // 'header--is-hidden': platforms[platform] && !is_from_tradershub_os,
+                'header--is-hidden': platforms[platform],
+                //  && !is_from_tradershub_os,
                 'header--tradershub_os_mobile': is_logged_in && is_from_tradershub_os && !isDesktop,
                 'header--tradershub_os_desktop': is_logged_in && is_from_tradershub_os && isDesktop,
             })}
