@@ -9,7 +9,6 @@ import { useDevice } from '@deriv-com/ui';
 
 import { AccountsInfoLoader } from 'App/Components/Layout/Header/Components/Preloader';
 import ToggleMenuDrawer from 'App/Components/Layout/Header/toggle-menu-drawer.jsx';
-// REMOVED: ToggleMenuDrawerAccountsOS import (No longer used)
 import platform_config from 'App/Constants/platform-config';
 import CurrencySelectionModal from 'App/Containers/CurrencySelectionModal';
 import NewVersionNotification from 'App/Containers/new-version-notification.jsx';
@@ -18,38 +17,33 @@ import SetAccountCurrencyModal from 'App/Containers/SetAccountCurrencyModal';
 
 import DerivShortLogo from './deriv-short-logo';
 import HeaderAccountActions from './header-account-actions';
-import ContactUsModal from './contact-us-modal';
-import RefreshButton from './refresh-button';
 
 const HeaderLegacy = observer(() => {
     const { client, common, ui, notifications, traders_hub } = useStore();
     const {
         currency,
         has_any_real_account,
+        is_bot_allowed,
+        is_dxtrade_allowed,
         is_logged_in,
         is_logging_in,
         is_single_logging_in,
+        is_mt5_allowed,
         is_virtual,
         is_switching,
         is_client_store_initialized,
-        // Removed: is_bot_allowed, is_dxtrade_allowed, etc. (Not used for filtering anymore if simplified)
-        // Kept needed ones for filterPlatformsForClients
-        is_bot_allowed,
-        is_dxtrade_allowed,
-        is_mt5_allowed,
     } = client;
-    const { platform } = common; // Removed is_from_tradershub_os
-    const { header_extension, is_app_disabled, is_route_modal_on, toggleReadyToDepositModal, is_real_acc_signup_on } = ui;
+    const { platform, is_from_tradershub_os } = common;
+    const { header_extension, is_app_disabled, is_route_modal_on, toggleReadyToDepositModal, is_real_acc_signup_on } =
+        ui;
     const { addNotificationMessage, client_notifications, removeNotificationMessage } = notifications;
     const { modal_data } = traders_hub;
     const { isHubRedirectionEnabled, isHubRedirectionLoaded } = useIsHubRedirectionEnabled();
 
     const { isDesktop } = useDevice();
+
     const history = useHistory();
     const { pathname } = useLocation();
-
-    // State for Contact Modal
-    const [is_contact_open, setContactOpen] = React.useState(false);
 
     const traders_hub_routes =
         [routes.traders_hub].includes(pathname) ||
@@ -107,7 +101,7 @@ const HeaderLegacy = observer(() => {
 
     const isExcludedRoute = excludedRoutes.some(route => window.location.pathname.includes(route));
 
-    // GUARD: Only hide if store is not ready. Removed Wallet/Hub logic.
+    // GUARD: Only hide if store is not ready. Removed Wallet/Hub logic so it renders for everyone.
     if (!is_client_store_initialized && !isExcludedRoute) {
         return null;
     }
@@ -116,8 +110,7 @@ const HeaderLegacy = observer(() => {
         <header
             className={classNames('header', {
                 'header--is-disabled': is_app_disabled || is_route_modal_on,
-                // REMOVED: 'header--is-hidden' logic
-                // REMOVED: 'tradershub_os' classes
+                // REMOVED: 'header--is-hidden' logic so it doesn't hide via CSS
             })}
         >
             <div className='header__menu-items'>
@@ -126,29 +119,12 @@ const HeaderLegacy = observer(() => {
                         <React.Fragment>
                             <DerivShortLogo />
                             <div className='header__divider' />
-                            {/* Desktop Custom Buttons */}
-                            <div style={{ display: 'flex', alignItems: 'center', marginLeft: '8px', gap: '8px' }}>
-                                {/* Note: Assuming Button is imported or available globally if this snippet is partial. 
-                                    If not, ensure import { Button } from '@deriv/components' is present. 
-                                    Re-using logic from previous steps: */}
-                                <button 
-                                    className="dc-btn dc-btn--tertiary dc-btn--small"
-                                    onClick={() => setContactOpen(true)}
-                                    style={{ border: '1px solid var(--border-normal)', background: 'transparent' }}
-                                >
-                                    <span className="dc-text dc-text--bold">Contact</span>
-                                </button>
-                                <RefreshButton />
-                            </div>
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                            {/* MOBILE: UNIFIED MENU */}
-                            {/* We always use the standard ToggleMenuDrawer, ignoring the OS check */}
+                            {/* MOBILE: Always use standard ToggleMenuDrawer */}
                             <ToggleMenuDrawer platform_config={filterPlatformsForClients(platform_config)} />
-                            
                             <DerivShortLogo />
-                            
                             {header_extension && is_logged_in && (
                                 <div className='header__menu-left-extensions'>{header_extension}</div>
                             )}
@@ -177,15 +153,14 @@ const HeaderLegacy = observer(() => {
                         </div>
                     ) : (
                         // FIX: Unconditional Render for Right Side
+                        // Renders HeaderAccountActions for ALL users (including Wallets).
                         <HeaderAccountActions
-                            // onClickDeposit={handleClickCashier} // Deposit hidden
+                            // onClickDeposit={handleClickCashier} // Deposit button remains hidden
                             is_traders_hub_routes={traders_hub_routes}
                         />
                     )}
                 </div>
             </div>
-            
-            <ContactUsModal is_open={is_contact_open} toggleModal={() => setContactOpen(false)} />
             
             {is_real_acc_signup_on && <RealAccountSignup />}
             <SetAccountCurrencyModal />
