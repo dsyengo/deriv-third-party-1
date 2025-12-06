@@ -903,7 +903,7 @@ export default class ClientStore extends BaseStore {
             is_current_mf || //is_currently logged in mf account via tradershub
             (financial_shortcode || gaming_shortcode || mt_gaming_shortcode
                 ? (eu_shortcode_regex.test(financial_shortcode) && gaming_shortcode !== 'svg') ||
-                  eu_shortcode_regex.test(gaming_shortcode)
+                eu_shortcode_regex.test(gaming_shortcode)
                 : eu_excluded_regex.test(this.residence))
         );
     }
@@ -1118,7 +1118,8 @@ export default class ClientStore extends BaseStore {
         this.accounts[loginid].accepted_bch = 0;
         LocalStore.setObject(storage_key, this.accounts);
         if (/^(CR|MF|VRTC)\d/.test(loginid)) sessionStorage.setItem('active_loginid', loginid);
-        if (/^(CRW|MFW|VRW)\d/.test(loginid)) sessionStorage.setItem('active_wallet_loginid', loginid);
+        // FIX: Comment out or remove the wallet storage line so it never saves as active
+        // if (/^(CRW|MFW|VRW)\d/.test(loginid)) sessionStorage.setItem('active_wallet_loginid', loginid);
         this.setUrlParams();
         this.syncWithLegacyPlatforms(loginid, toJS(this.accounts));
         this.loginid = loginid;
@@ -1282,9 +1283,21 @@ export default class ClientStore extends BaseStore {
         this.accounts[this.loginid].currency = response.authorize.currency;
         this.accounts[this.loginid].is_virtual = +response.authorize.is_virtual;
         this.accounts[this.loginid].session_start = parseInt(moment().utc().valueOf() / 1000);
+        // New Code (Filter Wallets)
         this.accounts[this.loginid].landing_company_shortcode = response.authorize.landing_company_name;
         this.accounts[this.loginid].country = response.country;
-        this.updateAccountList(response.authorize.account_list);
+        // FIX: Filter out Wallet accounts (CRW, VRW, MFW)
+        const non_wallet_accounts = response.authorize.account_list.filter(
+            account => !/^(CRW|VRW|MFW)/.test(account.loginid)
+        );
+        // If the CURRENT loginid is a wallet, we might have a problem. 
+        // Ideally, force a switch to the first non-wallet account.
+        if (/^(CRW|VRW|MFW)/.test(this.loginid) && non_wallet_accounts.length > 0) {
+            const first_trading_account = non_wallet_accounts[0].loginid;
+            // Trigger switch immediately (this might cause a reload based on your previous fix)
+            this.switchAccount(first_trading_account);
+        }
+        this.updateAccountList(non_wallet_accounts);
         this.upgrade_info = this.getBasicUpgradeInfo();
         this.user_id = response.authorize.user_id;
         localStorage.setItem('active_user_id', this.user_id);
@@ -1423,18 +1436,18 @@ export default class ClientStore extends BaseStore {
                 ...response,
                 ...(is_maltainvest_account
                     ? {
-                          new_account_maltainvest: {
-                              ...response.new_account_maltainvest,
-                              currency,
-                          },
-                      }
+                        new_account_maltainvest: {
+                            ...response.new_account_maltainvest,
+                            currency,
+                        },
+                    }
                     : {}),
                 ...(is_samoa_account
                     ? {
-                          new_account_samoa: {
-                              currency,
-                          },
-                      }
+                        new_account_samoa: {
+                            currency,
+                        },
+                    }
                     : {}),
             });
         }
@@ -1650,8 +1663,8 @@ export default class ClientStore extends BaseStore {
         } else
             this.setLoginId(
                 window.sessionStorage.getItem('active_loginid') ||
-                    window.sessionStorage.getItem('active_wallet_loginid') ||
-                    LocalStore.get('active_loginid')
+                window.sessionStorage.getItem('active_wallet_loginid') ||
+                LocalStore.get('active_loginid')
             );
         this.user_id = LocalStore.get('active_user_id');
         this.setAccounts(LocalStore.getObject(storage_key));
@@ -1919,11 +1932,11 @@ export default class ClientStore extends BaseStore {
         const ppc_campaign_cookies =
             Cookies.getJSON('utm_data') === 'null'
                 ? {
-                      utm_source: 'no source',
-                      utm_medium: 'no medium',
-                      utm_campaign: 'no campaign',
-                      utm_content: 'no content',
-                  }
+                    utm_source: 'no source',
+                    utm_medium: 'no medium',
+                    utm_campaign: 'no campaign',
+                    utm_content: 'no content',
+                }
                 : Cookies.getJSON('utm_data');
 
         let residence_country = '';
@@ -2093,9 +2106,9 @@ export default class ClientStore extends BaseStore {
             if (window.location.pathname.includes(routes.wallets)) {
                 this.resetLocalStorageValues(
                     window.sessionStorage.getItem('active_loginid') ??
-                        localStorage.getItem('active_loginid') ??
-                        sessionStorage.getItem('active_wallet_loginid') ??
-                        this.loginid
+                    localStorage.getItem('active_loginid') ??
+                    sessionStorage.getItem('active_wallet_loginid') ??
+                    this.loginid
                 );
                 return;
             }
@@ -2290,7 +2303,10 @@ export default class ClientStore extends BaseStore {
             active_loginid = obj_params.selected_acct;
         }
 
+        // New Code (Skip Wallets loop)
         account_list.forEach(function (account) {
+            // FIX: Skip if this is a Wallet Account
+            if (/^(CRW|VRW|MFW)/.test(account.loginid)) return;
             Object.keys(account).forEach(function (param) {
                 if (param === 'loginid') {
                     if (!active_loginid && !account.is_disabled) {

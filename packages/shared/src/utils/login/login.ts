@@ -1,7 +1,7 @@
 import { website_name } from '../config/app-config';
-import { domain_app_ids, getAppId } from '../config/config';
+import { getAppId } from '../config/config';
 import { CookieStorage, isStorageSupported, LocalStore } from '../storage/storage';
-import { getHubSignupUrl, urlForCurrentDomain } from '../url';
+import { getHubSignupUrl } from '../url';
 import { deriv_urls } from '../url/constants';
 import { routes } from '../routes/routes';
 
@@ -33,7 +33,7 @@ type TLoginUrl = {
 };
 
 export const loginUrl = ({ language }: TLoginUrl) => {
-    // 1. Get Marketing Cookies (Keep this for tracking)
+    // 1. Get Marketing Cookies (Keep this for tracking existing campaigns)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const signup_device_cookie = new (CookieStorage as any)('signup_device');
     const signup_device = signup_device_cookie.get('signup_device');
@@ -45,12 +45,14 @@ export const loginUrl = ({ language }: TLoginUrl) => {
         date_first_contact ? `&date_first_contact=${date_first_contact}` : ''
     }`;
 
-    // 2. FORCE YOUR APP ID (Nuclear Option)
-    // We do NOT check LocalStore.get('change_login_app_id') here.
-    // This ignores any previous sessions from the official site.
+    // 2. FORCE YOUR APP ID
     const app_id = '105469'; 
 
-    // 3. Construct the URL directly
-    // This ensures we always go to the main OAuth server with YOUR ID.
-    return `https://oauth.deriv.com/oauth2/authorize?app_id=${app_id}&l=${language}${marketing_queries}&brand=deriv`;
+    // 3. AFFILIATE CONFIGURATION
+    const affiliate_token = '_ZpTaWpj8mZlZl7VyVw174GNd7ZgqdRLk';
+    const utm_campaign = 'myaffiliates'; // Helps you track where users came from in your affiliate dashboard
+
+    // 4. Construct the URL directly
+    // Added &affiliate_token and &utm_campaign to the query string
+    return `https://oauth.deriv.com/oauth2/authorize?app_id=${app_id}&l=${language}${marketing_queries}&brand=deriv&affiliate_token=${affiliate_token}&utm_campaign=${utm_campaign}`;
 };
