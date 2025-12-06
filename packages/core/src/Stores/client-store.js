@@ -730,7 +730,8 @@ export default class ClientStore extends BaseStore {
     get currency() {
         if (this.selected_currency.length) {
             return this.selected_currency;
-        } else if (this.is_logged_in) {
+        } else if (this.is_logged_in && this.accounts[this.loginid]) {
+            // FIX: Added check '&& this.accounts[this.loginid]' to prevent crash
             return this.accounts[this.loginid].currency;
         }
 
@@ -1140,6 +1141,15 @@ export default class ClientStore extends BaseStore {
     }
 
     getBasicUpgradeInfo() {
+        // FIX: Safety check - if account is missing (filtered out), return defaults
+        if (!this.accounts[this.loginid]) {
+            return {
+                type: undefined,
+                can_upgrade: false,
+                can_upgrade_to: undefined,
+                can_open_multi: false,
+            };
+        }
         const upgradeable_landing_companies = [
             ...new Set(State.getResponse('authorize.upgradeable_landing_companies')),
         ];
@@ -1279,10 +1289,13 @@ export default class ClientStore extends BaseStore {
     }
 
     responseAuthorize(response) {
-        this.accounts[this.loginid].email = response.authorize.email;
-        this.accounts[this.loginid].currency = response.authorize.currency;
-        this.accounts[this.loginid].is_virtual = +response.authorize.is_virtual;
-        this.accounts[this.loginid].session_start = parseInt(moment().utc().valueOf() / 1000);
+        // FIX: Wrap assignments in a safety check
+        if (this.accounts[this.loginid]) {
+            this.accounts[this.loginid].email = response.authorize.email;
+            this.accounts[this.loginid].currency = response.authorize.currency;
+            this.accounts[this.loginid].is_virtual = +response.authorize.is_virtual;
+            this.accounts[this.loginid].session_start = parseInt(moment().utc().valueOf() / 1000);
+        }
         // New Code (Filter Wallets)
         this.accounts[this.loginid].landing_company_shortcode = response.authorize.landing_company_name;
         this.accounts[this.loginid].country = response.country;
@@ -2163,7 +2176,7 @@ export default class ClientStore extends BaseStore {
     }
 
     setResidence(residence) {
-        if (this.loginid) {
+        if (this.loginid && this.accounts[this.loginid]) {
             this.accounts[this.loginid].residence = residence;
         }
     }
@@ -2173,7 +2186,7 @@ export default class ClientStore extends BaseStore {
     }
 
     setEmail(email) {
-        if (this.loginid) {
+        if (this.loginid && this.accounts[this.loginid]) {
             this.accounts[this.loginid].email = email;
             this.email = email;
         }
@@ -2654,6 +2667,9 @@ export default class ClientStore extends BaseStore {
     }
 
     fetchStatesList() {
+        // FIX: Abort if account data is missing
+        if (!this.accounts[this.loginid]) return Promise.resolve();
+
         return new Promise((resolve, reject) => {
             WS.authorized.storage
                 .statesList({
