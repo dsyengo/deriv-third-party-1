@@ -2332,7 +2332,9 @@ export default class ClientStore extends BaseStore {
         while (obj_params[`acct${i}`]) {
             const loginid = obj_params[`acct${i}`];
             const token = obj_params[`token${i}`];
-            if (loginid && token) {
+            // FIX: Check if client_object[loginid] exists before setting token.
+            // If we filtered out the wallet earlier, client_object[loginid] will be undefined.
+            if (loginid && token && client_object[loginid]) {
                 client_object[loginid].token = token;
             }
             i++;
