@@ -1747,7 +1747,8 @@ export default class ClientStore extends BaseStore {
         this.responsePayoutCurrencies(await WS.authorized.payoutCurrencies());
 
         if (this.is_logged_in) {
-            this.getWalletMigrationState();
+            // FIX: Comment out this line to stop the app from checking for wallet migration
+            // this.getWalletMigrationState();
 
             await WS.authorized.mt5LoginList().then(this.responseMt5LoginList);
             WS.tradingServers(CFD_PLATFORMS.MT5).then(this.responseMT5TradingServers);
@@ -2973,6 +2974,11 @@ export default class ClientStore extends BaseStore {
     }
 
     async getWalletMigrationState() {
+        // FIX: Force the function to stop immediately.
+        // This ensures the "in_progress" or "required" state is never set.
+        return;
+
+        /* Original code disabled:
         try {
             const response = await WS.authorized.getWalletMigrationState();
             if (response?.wallet_migration?.state) this.setWalletMigrationState(response?.wallet_migration?.state);
@@ -2982,6 +2988,7 @@ export default class ClientStore extends BaseStore {
                 message: error?.error?.message,
             });
         }
+        */
     }
 
     async startWalletMigration() {
