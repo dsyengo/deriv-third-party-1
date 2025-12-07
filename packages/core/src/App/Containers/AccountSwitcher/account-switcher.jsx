@@ -104,10 +104,16 @@ const AccountSwitcher = observer(({ history, is_mobile, is_visible }) => {
     };
 
     const doSwitch = async loginid => {
-        closeAccountsDialog();
-        if (account_loginid === loginid) return;
-        await switchAccount(loginid);
-    };
+    closeAccountsDialog();
+    if (account_loginid === loginid) return;
+    
+    // 1. Update the token in storage
+    await switchAccount(loginid);
+    
+    // 2. FORCE RELOAD: This kills the Bot Engine (Instance #1)
+    // When the page comes back, a new Bot Engine starts and grabs Instance #2.
+    window.location.reload(); 
+};
 
     const resetBalance = async () => {
         closeAccountsDialog();
