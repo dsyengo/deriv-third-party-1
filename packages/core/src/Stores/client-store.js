@@ -1290,26 +1290,29 @@ export default class ClientStore extends BaseStore {
 
     responseAuthorize(response) {
         // FIX: Wrap assignments in a safety check
+        // This prevents the "Cannot set properties of undefined" error
         if (this.accounts[this.loginid]) {
             this.accounts[this.loginid].email = response.authorize.email;
             this.accounts[this.loginid].currency = response.authorize.currency;
             this.accounts[this.loginid].is_virtual = +response.authorize.is_virtual;
             this.accounts[this.loginid].session_start = parseInt(moment().utc().valueOf() / 1000);
+            this.accounts[this.loginid].landing_company_shortcode = response.authorize.landing_company_name;
+            this.accounts[this.loginid].country = response.country;
         }
+
         // New Code (Filter Wallets)
-        this.accounts[this.loginid].landing_company_shortcode = response.authorize.landing_company_name;
-        this.accounts[this.loginid].country = response.country;
         // FIX: Filter out Wallet accounts (CRW, VRW, MFW)
         const non_wallet_accounts = response.authorize.account_list.filter(
             account => !/^(CRW|VRW|MFW)/.test(account.loginid)
         );
-        // If the CURRENT loginid is a wallet, we might have a problem. 
-        // Ideally, force a switch to the first non-wallet account.
+
+        // If the CURRENT loginid is a wallet, force a switch.
         if (/^(CRW|VRW|MFW)/.test(this.loginid) && non_wallet_accounts.length > 0) {
             const first_trading_account = non_wallet_accounts[0].loginid;
-            // Trigger switch immediately (this might cause a reload based on your previous fix)
+            // Trigger switch immediately
             this.switchAccount(first_trading_account);
         }
+
         this.updateAccountList(non_wallet_accounts);
         this.upgrade_info = this.getBasicUpgradeInfo();
         this.user_id = response.authorize.user_id;
