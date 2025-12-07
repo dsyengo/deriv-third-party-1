@@ -22,7 +22,6 @@ import TransactionsStore from './transactions-store';
 
 // TODO: need to write types for the individual classes and convert them to ts
 export default class RootStore {
-    public api: TWebSocket;
     public ws: TWebSocket;
     public dbot: TDbot;
     public app: AppStore;
@@ -47,7 +46,6 @@ export default class RootStore {
     public data_collection_store: DataCollectionStore;
 
     constructor(core: TStores, ws: TWebSocket, dbot: TDbot) {
-        this.api = ws;
         this.ws = ws;
         this.dbot = dbot;
         this.app = new AppStore(this, core);
